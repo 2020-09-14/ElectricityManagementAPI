@@ -1,0 +1,12 @@
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\ElectricityManagementAPI.exe
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.csprojAssemblyReference.cache
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.AssemblyInfoInputs.cache
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.AssemblyInfo.cs
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.RazorTargetAssemblyInfo.cache
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\staticwebassets\ElectricityManagementAPI.StaticWebAssets.Manifest.cache
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\staticwebassets\ElectricityManagementAPI.StaticWebAssets.xml
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\Dapper.dll
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.csproj.CopyComplete
