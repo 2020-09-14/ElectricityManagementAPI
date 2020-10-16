@@ -5920,23 +5920,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\T\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\guisu\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\T\\Desktop\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
+      "projectUniqueName": "C:\\Users\\guisu\\Desktop\\电商\\api\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
       "projectName": "ElectricityManagementAPI",
-      "projectPath": "C:\\Users\\T\\Desktop\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
-      "packagesPath": "C:\\Users\\T\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\T\\Desktop\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI\\obj\\",
+      "projectPath": "C:\\Users\\guisu\\Desktop\\电商\\api\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
+      "packagesPath": "C:\\Users\\guisu\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\guisu\\Desktop\\电商\\api\\ElectricityManagementAPI\\ElectricityManagementAPI\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\T\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\guisu\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
