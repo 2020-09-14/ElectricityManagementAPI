@@ -21,7 +21,7 @@ namespace ElectricityManagementAPI.Helper
             IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json");
-            var cs = Configuration.GetConnectionString("DefaultConnection");
+            var cs = Configuration.GetConnectionString("ConnectionStrings:DefaultConnection");
             var csb = new MySqlConnectionStringBuilder(cs)
             {
                 AllowZeroDateTime = allowZeroDatetime,
