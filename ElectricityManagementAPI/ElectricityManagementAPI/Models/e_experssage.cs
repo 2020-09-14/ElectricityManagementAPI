@@ -10,9 +10,9 @@ namespace ElectricityManagementAPI.Models
     /// </summary>
     public class e_experssage
     {
-        public int Eid{ get; set; }
-        public string EName { get; set; }
-        public string Ephone { get; set; }
-        public string Eofficial { get; set; }
+        public int Eid{ get; set; }//快递主键编号
+        public string EName { get; set; }//企业名称
+        public string Ephone { get; set; }//客服电话
+        public string Eofficial { get; set; }//官方网站
     }
 }

@@ -10,7 +10,7 @@ namespace ElectricityManagementAPI.Models
     /// </summary>
     public class f_freighttype
     {
-        public int Fid { get; set; }
-        public string Fname { get; set; }
+        public int Fid { get; set; }//运费类型id
+        public string Fname { get; set; }//运费名称
     }
 }

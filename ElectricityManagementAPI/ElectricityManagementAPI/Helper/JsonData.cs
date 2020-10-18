@@ -7,9 +7,9 @@ namespace ElectricityManagementAPI.Helper
 {
     public class JsonData
     {
-        public int Code { get; set; }
-        public string Msg { get; set; }
-        public int Count { get; set; }
-        public object Data { get; set; }
+        public int code { get; set; }
+        public string msg { get; set; }
+        public int count { get; set; }
+        public object data { get; set; }
     }
 }

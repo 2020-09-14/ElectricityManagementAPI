@@ -18,8 +18,7 @@ namespace ElectricityManagementAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<IElectricityManagement,ElectricityManagement > ();
-
+            services.AddSingleton<IElectricityManagement, ElectricityManagement>();
             services.AddCors(options =>
            options.AddPolicy("cor",
            p => p.AllowAnyOrigin())
