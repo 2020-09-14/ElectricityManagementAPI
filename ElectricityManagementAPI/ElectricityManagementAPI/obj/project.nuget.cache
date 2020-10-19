@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MY2uOsMgFguoq6kDhkfhvoPbvl9cW8LhErvGKzFLwBx2K0fX8AFl/q3iU8V7O7UltonQzZClEU3TJyU55m4vFg==",
+  "dgSpecHash": "oKMgWNGvgn1tMNyHO33O+3pFEkTg6H16ragEmbA3Bi31sbf3iWnnhZPjpVd2cH4AbgLcNB43x5ujL7Li3C9B5g==",
   "success": true,
-  "projectFilePath": "E:\\大一项目\\API\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
+  "projectFilePath": "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MECHREVO\\.nuget\\packages\\bouncycastle.netcore\\1.8.3\\bouncycastle.netcore.1.8.3.nupkg.sha512",
     "C:\\Users\\MECHREVO\\.nuget\\packages\\dapper\\2.0.35\\dapper.2.0.35.nupkg.sha512",

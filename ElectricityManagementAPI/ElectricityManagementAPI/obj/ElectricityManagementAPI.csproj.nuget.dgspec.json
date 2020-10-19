@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\大一项目\\API\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {}
+    "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {}
   },
   "projects": {
-    "E:\\大一项目\\API\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {
+    "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\大一项目\\API\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
+        "projectUniqueName": "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
         "projectName": "ElectricityManagementAPI",
-        "projectPath": "E:\\大一项目\\API\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
+        "projectPath": "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
         "packagesPath": "C:\\Users\\MECHREVO\\.nuget\\packages\\",
-        "outputPath": "E:\\大一项目\\API\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\obj\\",
+        "outputPath": "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
