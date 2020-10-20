@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {}
+    "C:\\Users\\T\\Desktop\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {}
   },
   "projects": {
-    "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {
+    "C:\\Users\\T\\Desktop\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
+        "projectUniqueName": "C:\\Users\\T\\Desktop\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
         "projectName": "ElectricityManagementAPI",
-        "projectPath": "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
-        "packagesPath": "C:\\Users\\MECHREVO\\.nuget\\packages\\",
-        "outputPath": "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\obj\\",
+        "projectPath": "C:\\Users\\T\\Desktop\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
+        "packagesPath": "C:\\Users\\T\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\T\\Desktop\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\MECHREVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\T\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -44,6 +44,10 @@
             "Dapper": {
               "target": "Package",
               "version": "[2.0.35, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[3.1.9, )"
             },
             "MySql.Data": {
               "target": "Package",

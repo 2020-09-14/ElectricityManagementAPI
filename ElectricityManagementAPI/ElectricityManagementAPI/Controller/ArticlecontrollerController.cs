@@ -33,7 +33,11 @@ namespace ElectricityManagementAPI.Controller
         public async Task<IActionResult> GetShow()
         {
             var Getshow = await _electricity.GetShowAsync();
-            JsonData jsons = new JsonData { code = 0, msg = "", count = 100,data = Getshow };
+
+            JsonData jsons = new JsonData { code = 0, msg = "", count = 100, data = Getshow };
+
+           
+
             string json = JsonConvert.SerializeObject(jsons);
             return Ok(json);
         }

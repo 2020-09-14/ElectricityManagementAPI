@@ -1,13 +1,20 @@
 ﻿using Dapper;
-using ElectricityManagementAPI.Helper;
+
+using ElectricityManagementAPI;
 using ElectricityManagementAPI.Models;
+
+using ElectricityManagementAPI.Helper;
+
 using Microsoft.Extensions.Configuration;
+
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace ElectricityManagementAPI.Dal
 {
@@ -17,7 +24,45 @@ namespace ElectricityManagementAPI.Dal
         private readonly string _connectionString;
         public ElectricityManagement(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("Shenwenjie");
+
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
+        public async Task<int> DelAllAsync(string ids)
+        {
+            string sql = $"delete from `order` where OrderId in ({ids})";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                return await conn.ExecuteAsync(sql);
+            }
+        }
+        
+            
+        public async  Task<List<OrderModel>> GetOrdersAsync(int? states)
+        {
+         
+          string sql = $"select * from `order`  join goods  on OrderGoodsId=goodsId join buyerinfo on OrderBuyerId=BuyerInfold join buyerrelation on BuyerInfoPlace=BuyerRelationInfo join buyeraddress on BuyerRelationAddress = BuyerAddressId where 1 =1 and  buyerrelation.BuyerRelationState = 1  ";
+            if (states!=0)
+            {
+                sql += $" and Orderstate = { states }";
+            }
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                return (await conn.QueryAsync<OrderModel>(sql)).ToList();
+            }
+        }
+        public async Task<List<OrderModel>> GetOrdersDeliverAsync()
+        {
+
+            string sql = $"select * from `order`  join goods  on OrderGoodsId=goodsId join buyerinfo on OrderBuyerId=BuyerInfold join buyerrelation on BuyerInfoPlace=BuyerRelationInfo join buyeraddress on BuyerRelationAddress = BuyerAddressId where 1 =1 and  buyerrelation.BuyerRelationState = 1  and Orderstate = 3 ";
+          
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                return (await conn.QueryAsync<OrderModel>(sql)).ToList();
+            }
+
+            
+
         }
 
         //显示文章
@@ -26,6 +71,9 @@ namespace ElectricityManagementAPI.Dal
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             return  (await tion.QueryAsync<inquire>("SELECT * from Article a join Category c on a.CategoryId=c.CID WHERE c.CState=1")).ToList();
         }
+
+
+
         //添加地址
         public async Task<int> AddAddressAsync(a_address model)
         {
@@ -137,5 +185,6 @@ namespace ElectricityManagementAPI.Dal
                 return (await conn.QueryAsync<p_package>(sql)).ToList();
             }
         }
+
     }
 }

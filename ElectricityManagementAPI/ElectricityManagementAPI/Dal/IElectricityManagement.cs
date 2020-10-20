@@ -1,14 +1,26 @@
-﻿using System;
+﻿using ElectricityManagementAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ElectricityManagementAPI.Models;
+
 
 namespace ElectricityManagementAPI.Dal
 {
      public interface IElectricityManagement
     {
+
+        Task<List<OrderModel>> GetOrdersAsync(int? states);
+
+        Task<List<OrderModel>> GetOrdersDeliverAsync();
+
+
         Task< List<inquire>> GetShowAsync();
+
+
+
+        Task<int> DelAllAsync(string ids);
+
         //包裹中心表
         Task<List<p_package>> GetPackagesAsync();
         //显示快递公司表
@@ -31,5 +43,6 @@ namespace ElectricityManagementAPI.Dal
         Task<int> UptFreightAsync(string Id);
         //详情显示包裹中心
         Task<List<p_package>> DetailspackageAsync(int id);
+
     }
 }

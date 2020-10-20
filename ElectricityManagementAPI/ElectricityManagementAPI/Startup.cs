@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Threading.Tasks;
 using ElectricityManagementAPI.Dal;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Microsoft.Extensions.Configuration;
 namespace ElectricityManagementAPI
 {
     public class Startup
@@ -17,8 +18,20 @@ namespace ElectricityManagementAPI
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
+            
             services.AddControllers();
             services.AddSingleton<IElectricityManagement, ElectricityManagement>();
+        
+            //配置跨域处理，允许所有来源：
+
+            services.AddControllers();
+
+            services.AddSingleton<IElectricityManagement,ElectricityManagement > ();
+
+
+            services.AddSingleton<IElectricityManagement, ElectricityManagement>();
+
             services.AddCors(options =>
            options.AddPolicy("cor",
            p => p.AllowAnyOrigin())
@@ -44,6 +57,13 @@ namespace ElectricityManagementAPI
                 //    await context.Response.WriteAsync("Hello World!");
                 //});
             });
+            app.UseFileServer(new FileServerOptions()//直接开启文件目录访问和文件访问
+            {
+                EnableDirectoryBrowsing = true,//开启目录访问
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(@"C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\Images\"),
+                RequestPath = new PathString("/Images")
+            });
+
         }
     }
 }
