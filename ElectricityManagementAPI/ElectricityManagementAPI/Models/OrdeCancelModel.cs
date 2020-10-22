@@ -9,6 +9,7 @@ namespace ElectricityManagementAPI.Models
     {
         //订单取消
         public int OrdeCancelId { get; set; }
+        public int OrdeCancelStateId { get; set; }
         public string OrdeCancelCause { get; set; }
         public string OrdeCancelInfo { get; set; }
     }

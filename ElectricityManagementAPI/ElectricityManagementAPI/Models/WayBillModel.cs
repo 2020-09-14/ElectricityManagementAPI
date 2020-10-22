@@ -13,7 +13,7 @@ namespace ElectricityManagementAPI.Models
         public DateTime WayBillTime { get; set; }
         public int WayBillOrderId { get; set; }
         public int WayBillState { get; set; }
-
+        public string WayBillExpress { get; set; }
         //订单管理
         public int OrderId { get; set; }
         public string OrderNumber { get; set; }

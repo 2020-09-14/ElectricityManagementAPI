@@ -9,17 +9,30 @@ namespace ElectricityManagementAPI.Dal
 {
      public interface IElectricityManagement
     {
-
+        //获取订单信息
         Task<List<OrderModel>> GetOrdersAsync(int? states);
-
+        //获取订单详情
+        Task<List<OrderModel>> GetOrdersDetialAsync(int ids);
+        //获取发货
         Task<List<OrderModel>> GetOrdersDeliverAsync();
-
-
+        //运单
+        Task<List<WayBillModel>> GetWayBills();
+        //订单取消
+        Task<List<OrdeCancelModel>> GetOrdeCancels();
         Task< List<inquire>> GetShowAsync();
-
-
-
+        //修改后添加
+        Task<int> UptAdd(OrdeCancelModel c);
+        //批删取消原因
+        Task<int> DelredeAllAsync(string ids);
+        //批删订单原因
         Task<int> DelAllAsync(string ids);
+        //编辑
+        Task<List<OrdeCancelModel>> GetOrdeEdit(int ids);
+        //修改
+        Task<int> Uptcancel(OrdeCancelModel cc);
+        //添加
+        Task<int> Addcancel(OrdeCancelModel cc);
+
 
         //包裹中心表
         Task<List<p_package>> GetPackagesAsync();
@@ -43,6 +56,7 @@ namespace ElectricityManagementAPI.Dal
         Task<int> UptFreightAsync(string Id);
         //详情显示包裹中心
         Task<List<p_package>> DetailspackageAsync(int id);
-
+        //批量发货
+        Task<int> GetVAsync(string WayBiilNumber, string WayBillOrderId, string WayBillExpress);
     }
 }

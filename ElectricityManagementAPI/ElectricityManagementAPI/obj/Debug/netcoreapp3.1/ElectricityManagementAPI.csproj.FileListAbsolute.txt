@@ -73,7 +73,6 @@ C:\Users\HP\Desktop\新建文件夹\ElectricityManagementAPI\ElectricityManageme
 C:\Users\HP\Desktop\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.csproj.CoreCompileInputs.cache
 C:\Users\HP\Desktop\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
-C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.csprojAssemblyReference.cache
 C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\appsettings.json
@@ -111,3 +110,4 @@ C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\Electrici
 C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.dll
 C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.pdb
 C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.genruntimeconfig.cache
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.csprojAssemblyReference.cache

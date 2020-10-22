@@ -34,7 +34,7 @@ namespace ElectricityManagementAPI
 
             services.AddCors(options =>
            options.AddPolicy("cor",
-           p => p.AllowAnyOrigin())
+           p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin())
            );
 
         }

@@ -27,17 +27,25 @@ namespace ElectricityManagementAPI.Dal
 
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
-
+        //删除订单
         public async Task<int> DelAllAsync(string ids)
         {
-            string sql = $"delete from `order` where OrderId in ({ids})";
+            string sql = $"delete from  `order` where OrderId in ({ids})";
             using (MySqlConnection conn=new MySqlConnection(_connectionString))
             {
                 return await conn.ExecuteAsync(sql);
             }
         }
-        
-            
+        //删除取消原因
+        public async Task<int> DelredeAllAsync(string ids)
+        {
+            string sql = $"delete from ordecancel where OrdeCancelId in ({ids})";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                return await conn.ExecuteAsync(sql);
+            }
+        }
+        //显示订单
         public async  Task<List<OrderModel>> GetOrdersAsync(int? states)
         {
          
@@ -51,6 +59,7 @@ namespace ElectricityManagementAPI.Dal
                 return (await conn.QueryAsync<OrderModel>(sql)).ToList();
             }
         }
+        //显示未发货
         public async Task<List<OrderModel>> GetOrdersDeliverAsync()
         {
 
@@ -64,16 +73,12 @@ namespace ElectricityManagementAPI.Dal
             
 
         }
-
         //显示文章
         public async Task<List<inquire>> GetShowAsync()
         {
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             return  (await tion.QueryAsync<inquire>("SELECT * from Article a join Category c on a.CategoryId=c.CID WHERE c.CState=1")).ToList();
         }
-
-
-
         //添加地址
         public async Task<int> AddAddressAsync(a_address model)
         {
@@ -119,7 +124,6 @@ namespace ElectricityManagementAPI.Dal
                 return (await conn.ExecuteAsync(sql));
             }
         }
-
         /// 删除运费模板、按照逻辑删除
         public async Task<int> UptFreightAsync(string Id)
         {
@@ -185,6 +189,94 @@ namespace ElectricityManagementAPI.Dal
                 return (await conn.QueryAsync<p_package>(sql)).ToList();
             }
         }
+        //批量发货
+        public async Task<int> GetVAsync(string WayBiilNumber, string WayBillOrderId, string WayBillExpress)
+        {
+          
+            string sql = $"insert into waybill(WayBiilNumber,WayBillTime,WayBillOrderId,WayBillState,WayBillExpress) values('{WayBillExpress}','{DateTime.Now}','{WayBillOrderId}','{1}','{WayBiilNumber}')";
+            string sql1 = $"UPDATE `order` set Orderstate = 4 WHERE OrderId = {WayBillOrderId}";
+            
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                await conn.ExecuteAsync(sql1);
+                return (await conn.ExecuteAsync(sql));
+            }
+        }
+        //订单详情
+        public async Task<List<OrderModel>> GetOrdersDetialAsync(int ids)
+        {
+            string sql = $"select * from `order`  join goods  on OrderGoodsId=goodsId join buyerinfo on OrderBuyerId=BuyerInfold join buyerrelation on BuyerInfoPlace=BuyerRelationInfo join buyeraddress on BuyerRelationAddress = BuyerAddressId where 1 =1  and  buyerrelation.BuyerRelationState = 1";
+            if (ids != 0)
+            {
+                sql += $" and OrderId = { ids }";
+            }
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                return (await conn.QueryAsync<OrderModel>(sql)).ToList();
+            }
+        }
+        //运单
+        public async Task<List<WayBillModel>> GetWayBills()
+        {
+            string sql = "select * from waybill join  `order` on waybill.WayBillOrderId=`order`.OrderId  join goods  on OrderGoodsId=goodsId join buyerinfo on OrderBuyerId=BuyerInfold join buyerrelation on BuyerInfoPlace = BuyerRelationInfo join buyeraddress on BuyerRelationAddress = BuyerAddressId where 1 = 1  and buyerrelation.BuyerRelationState = 1";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                return (await conn.QueryAsync<WayBillModel>(sql)).ToList();
+            }
+        }
+        //修改后添加
+        public async Task<int> UptAdd(OrdeCancelModel c)
+        {
 
+            string sql = $"update `order` set Orderstate=8 where OrderId={c.OrdeCancelStateId}";
+
+            string sql1 = $"insert into ordecancel(OrdeCancelStateId,OrdeCancelCause,OrdeCancelInfo) value ('{c.OrdeCancelStateId}','{c.OrdeCancelCause}','{c.OrdeCancelInfo}')";
+
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                await conn.ExecuteAsync(sql);
+                return (await conn.ExecuteAsync(sql1));
+            }
+        }
+        //获取取消订单
+        public async Task<List<OrdeCancelModel>> GetOrdeCancels()
+        {
+            string sql = $"select * from ordecancel";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+               
+                return (await conn.QueryAsync<OrdeCancelModel>(sql)).ToList();
+            }
+        }
+        //反填
+        public async Task<List<OrdeCancelModel>> GetOrdeEdit(int ids)
+        {
+            string sql = $"select * from ordecancel where  OrdeCancelId={ids}";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+
+                return (await conn.QueryAsync<OrdeCancelModel>(sql)).ToList();
+            }
+        }
+        //修改
+        public async Task<int> Uptcancel(OrdeCancelModel cc)
+        {
+            string sql = $"update ordecancel set OrdeCancelStateId='{cc.OrdeCancelStateId}',OrdeCancelCause='{cc.OrdeCancelCause}',OrdeCancelInfo='{cc.OrdeCancelInfo}' where OrdeCancelId={cc.OrdeCancelId}";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+
+                return await conn.ExecuteAsync(sql);
+            }
+        }
+        //添加
+        public async Task<int> Addcancel(OrdeCancelModel cc)
+        {
+            string sql = $"insert into ordecancel(OrdeCancelStateId,OrdeCancelCause,OrdeCancelInfo) value ('{cc.OrdeCancelStateId}','{cc.OrdeCancelCause}','{cc.OrdeCancelInfo}')";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+
+                return await conn.ExecuteAsync(sql);
+            }
+        }
     }
 }

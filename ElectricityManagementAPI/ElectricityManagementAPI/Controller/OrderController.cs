@@ -20,14 +20,7 @@ namespace ElectricityManagementAPI.Controller
             _electricityManagement = electricityManagement;
         }
         [HttpGet]
-        public async Task<IActionResult> GetOder(int states,
-            string   ordernum  ,
-             string  paytype   ,
-              string buyerliu  ,
-              string begintime ,
-              string overtime  ,
-              string goodsname ,
-              string goodsnum  ,
+        public async Task<IActionResult> GetOder(int states, string   ordernum  ,string  paytype   ,string buyerliu  ,string begintime ,string overtime  , string goodsname , string goodsnum  ,
               string buyername ,
               string tel       ,
             int page,
@@ -76,6 +69,20 @@ namespace ElectricityManagementAPI.Controller
             };
             return Ok(model);
         }
+        [Route("/api/GetOrdersDeliver")]
+        [HttpGet]
+        public async Task<IActionResult> GetOrdersDeliver()
+        {
+            var GetDelivers = await _electricityManagement.GetOrdersDeliverAsync();
+            return Ok(GetDelivers);
+        }
+        [Route("/api/GetOderDetil")]
+        [HttpGet]
+        public async Task<IActionResult> GetOderDetil(int ids)
+        {
+            List<OrderModel> GetOrders = await _electricityManagement.GetOrdersDetialAsync(ids);
+            return Ok(GetOrders);
+        }
         [Route("/api/DelAll")]
         [HttpGet]
         public async Task<IActionResult> DelAll([FromQuery] string ids)
@@ -84,5 +91,17 @@ namespace ElectricityManagementAPI.Controller
             var del = await _electricityManagement.DelAllAsync(ids);
             return Ok(del);
         }
+        //批量发货
+        [Route("/api/GetVf")]
+        [HttpGet]
+        public async Task<IActionResult> GetVAsync([FromQuery]string WayBiilNumber, [FromQuery] string WayBillOrderId , [FromQuery] string WayBillExpress)
+        {
+            return Ok(await _electricityManagement.GetVAsync(WayBiilNumber, WayBillOrderId, WayBillExpress));
+        }
+
+
+        
+
+
     }
 }
