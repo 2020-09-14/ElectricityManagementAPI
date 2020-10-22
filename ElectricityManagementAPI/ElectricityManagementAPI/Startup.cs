@@ -9,7 +9,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+
+
 using Microsoft.Extensions.Configuration;
+
 namespace ElectricityManagementAPI
 {
     public class Startup
@@ -20,21 +25,24 @@ namespace ElectricityManagementAPI
         {
 
             
-            services.AddControllers();
-            services.AddSingleton<IElectricityManagement, ElectricityManagement>();
+           
         
             //配置跨域处理，允许所有来源：
 
             services.AddControllers();
 
+
             services.AddSingleton<IElectricityManagement,ElectricityManagement > ();
 
 
-            services.AddSingleton<IElectricityManagement, ElectricityManagement>();
+
 
             services.AddCors(options =>
            options.AddPolicy("cor",
+
+        
            p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin())
+
            );
 
         }
@@ -46,9 +54,12 @@ namespace ElectricityManagementAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors("cor");
-            app.UseRouting();
 
+            app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseStaticFiles();
+            app.UseCors("cor");
+            app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
@@ -57,12 +68,18 @@ namespace ElectricityManagementAPI
                 //    await context.Response.WriteAsync("Hello World!");
                 //});
             });
+
+         
             app.UseFileServer(new FileServerOptions()//直接开启文件目录访问和文件访问
             {
                 EnableDirectoryBrowsing = true,//开启目录访问
-                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(@"C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\Images\"),
+                
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(@"C:\Users\86176\Desktop\电商后台管理API\ElectricityManagementAPI\ElectricityManagementAPI\Images\"),
                 RequestPath = new PathString("/Images")
             });
+
+           
+
 
         }
     }

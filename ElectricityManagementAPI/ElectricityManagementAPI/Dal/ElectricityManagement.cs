@@ -3,6 +3,10 @@
 using ElectricityManagementAPI;
 using ElectricityManagementAPI.Models;
 
+using Microsoft.AspNetCore.Components;
+
+
+
 using ElectricityManagementAPI.Helper;
 
 using Microsoft.Extensions.Configuration;
@@ -22,10 +26,24 @@ namespace ElectricityManagementAPI.Dal
     {
 
         private readonly string _connectionString;
+       
+        //大傻春
         public ElectricityManagement(IConfiguration configuration)
         {
 
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _connectionString = configuration.GetConnectionString("MySqlWang");
+          
+        }
+        //品牌添加
+        public async Task<int> BrandAddAsync(brand b)
+        {
+            string sql = $"insert into brand(img,Bname,Corporation,State,CreaTime) VALUES('{b.Img}','{b.Bname}','{b.Corporation}','{1}','{DateTime.Now}')";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            int i = await tion.ExecuteAsync(sql);
+            return  i;
+
+
+         
         }
         //删除订单
         public async Task<int> DelAllAsync(string ids)
@@ -72,12 +90,104 @@ namespace ElectricityManagementAPI.Dal
 
             
 
+
         }
+
+
+        //品牌显示
+        public async Task<List<brand>> BrandAsync()
+        {
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            List<brand> list = (await tion.QueryAsync<brand>("select Brandid,Img,Bname,Corporation,State,CreaTime from brand where State = 1")).ToList();
+            return (list);
+        }
+        //品牌lugo上传
+        
+        //商品
+        public async Task<List<Commodity>> commoditiesAsync()
+        {
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.QueryAsync<Commodity>("SELECT commodity.Cidd,CommodityId,ClassifyId,SCname,Recommend,Bname,commodity.Img,Introduce,Inventory,commodity.State,Price,commodity.CreaTime from commodity JOIN classify ON ClassifyId  = CommodityId  JOIN brand on brand.Brandid = commodity.Bidd WHERE commodity.delstate = '1'")).ToList();
+        }
+        //分类父级
+        public async Task<List<Classify>> Classifies()
+        {
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.QueryAsync<Classify>("select * from Classify WHERE Cidd = 0")).ToList();
+        }
+        //分类子集
+        public async Task<List<Classify>> GetClassifies(int ids)
+        {
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.QueryAsync<Classify>($"select * from Classify WHERE Cidd = {ids}")).ToList();
+        }
+
         //显示文章
         public async Task<List<inquire>> GetShowAsync()
         {
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             return  (await tion.QueryAsync<inquire>("SELECT * from Article a join Category c on a.CategoryId=c.CID WHERE c.CState=1")).ToList();
+
+        }
+        /// <summary>
+        /// 商品添加
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public async Task<int> CommAddAsunc(Commodity b)
+        {
+            string sql = $"insert into commodity(Recommend,Bidd,Pay,Img,Introduce,Inventory,Cidd,Creatime,SCname,State,Price) values('{b.Recommend}','{b.Bidd}','{b.Pay}','{b.Img}','{b.Introduce}','{b.Inventory}','{b.Cidd}','{DateTime.Now}','{b.SCname}','{1}','{b.Price}')";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            int i = await tion.ExecuteAsync(sql);
+            return i;
+        }
+        //所有规格
+        public async Task<List<Specification>> specAsunc()
+        {
+            string sql = $"select * from Specification   ";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+           
+            return (await tion.QueryAsync<Specification>(sql)).ToList();
+        }
+        //删除商品
+        public async Task<int> DelCommAsync(string ids)
+        {
+            string sql = $"UPDATE commodity set delstate = 0 WHERE CommodityId in ({ids}) ";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+
+            return await tion.ExecuteAsync(sql);
+           
+        }
+        //删除回收站的商品
+        public async Task<int> CommDelete(string ids)
+        {
+            string sql = $"delete from commodity WHERE CommodityId in ({ids}) ";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+
+            return await tion.ExecuteAsync(sql);
+
+        }
+        //详情
+        public Commodity Xq(string ids)
+        {
+            string sql = $"SELECT * from commodity where CommodityId = {ids}  ";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+
+            return  tion.QueryFirstOrDefault<Commodity>(sql);
+        }
+        //上架
+        public int Sj(string ids)
+        {
+            string sql = $"UPDATE commodity SET State = 3 where CommodityId = {ids}  ";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+
+            return tion.Execute(sql);
+        }
+        //回收站的商品
+        public async Task<List<Commodity>> commodeleteAsync()
+        {
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.QueryAsync<Commodity>("SELECT commodity.Cidd,CommodityId,ClassifyId,SCname,Recommend,Bname,commodity.Img,Introduce,Inventory,commodity.State,Price,commodity.CreaTime from commodity JOIN classify ON ClassifyId  = CommodityId  JOIN brand on brand.Brandid = commodity.Bidd WHERE commodity.delstate = '0'")).ToList();
         }
         //添加地址
         public async Task<int> AddAddressAsync(a_address model)
@@ -189,6 +299,71 @@ namespace ElectricityManagementAPI.Dal
                 return (await conn.QueryAsync<p_package>(sql)).ToList();
             }
         }
+
+        //商品评论
+        public async Task<List<Evaluate>> EvaluatesAsync()
+        {
+            string sql = "SELECT * from evaluate e join commodity c on e.Cidd = c.CommodityId  join buyerinfo b on b.BuyerInfold = e.Uidd";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                return (await conn.QueryAsync<Evaluate>(sql)).ToList();
+            }
+        }
+        //删除评论（假删）
+        public async Task<int> EvaluateDel(string ids)
+        {
+            string sql = $"UPDATE evaluate set State = 0 where Evaluateid = ({ids})";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                return (await conn.ExecuteAsync(sql));
+            }
+        }
+
+        //规格显示
+        public async Task<List<Specification>> Specifications()
+        {
+            string sql = "SELECT * from Specification where Steate = 1";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                return (await conn.QueryAsync<Specification>(sql)).ToList();
+            }
+        }
+        //删除规格
+        public async Task<int> SpDel(string ids)
+        {
+            string sql = $"delete from Specification  where SpecificationId in {ids}";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                return (await conn.ExecuteAsync(sql));
+            }
+        }
+        //添加规格
+        public async Task<int> SpAdd(Specification s)
+        {
+            string sql = $"INSERT into specification(Sname,Steate,CreaTime,State) VALUES('{s.Sname}','{s.Steate}','{s.CreaTime}','{s.State}')";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                return (await conn.ExecuteAsync(sql));
+            }
+        }
+        //修改规格
+        public async Task<int> SpUpt(Specification s)
+        {
+            string sql = $"UPDATE specification set Sname='{s.Sname}',Steate='{s.Steate}',CreaTime='{s.CreaTime}',State='{s.State}' WHERE SpecificationId = 99";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                return (await conn.ExecuteAsync(sql));
+            }
+        }
+        //反填规格
+        public Specification SpFt(string ids)
+        {
+            string sql = $"SELECT * from Specification where  SpecificationId = {ids}";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                return conn.QueryFirstOrDefault<Specification>(sql);
+            }
+        }
         //批量发货
         public async Task<int> GetVAsync(string WayBiilNumber, string WayBillOrderId, string WayBillExpress)
         {
@@ -276,6 +451,7 @@ namespace ElectricityManagementAPI.Dal
             {
 
                 return await conn.ExecuteAsync(sql);
+
             }
         }
     }

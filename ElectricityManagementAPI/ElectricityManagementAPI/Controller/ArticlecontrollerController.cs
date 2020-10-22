@@ -27,7 +27,7 @@ namespace ElectricityManagementAPI.Controller
             _electricity = electricity;
         }
 
-        
+        //显示所有的商品
         [HttpGet]
         [Route("/api/GetShow")]
         public async Task<IActionResult> GetShow()
@@ -35,8 +35,6 @@ namespace ElectricityManagementAPI.Controller
             var Getshow = await _electricity.GetShowAsync();
 
             JsonData jsons = new JsonData { code = 0, msg = "", count = 100, data = Getshow };
-
-           
 
             string json = JsonConvert.SerializeObject(jsons);
             return Ok(json);

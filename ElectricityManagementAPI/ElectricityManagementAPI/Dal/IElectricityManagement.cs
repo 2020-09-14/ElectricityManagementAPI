@@ -9,17 +9,41 @@ namespace ElectricityManagementAPI.Dal
 {
      public interface IElectricityManagement
     {
+
+
+
+        Task<List<brand>> BrandAsync();
+        Task<List<Commodity>> commoditiesAsync();//显示商品
+        Task<List<Commodity>> commodeleteAsync();//回收站的商品
+        Task<int> CommDelete(string ids);//删除回收站的商品
+        Task< List<inquire>> GetShowAsync();
+        Task<int> BrandAddAsync(brand b);
+        Task<List<Classify>> Classifies();
+        Task<List<Classify>> GetClassifies(int ids);
+        Task<int> CommAddAsunc(Commodity b);
+        Task<List<Specification>> specAsunc();
+        //删除shangp
+        Task<int> DelCommAsync(string ids);
+        //详情
+        Commodity Xq(string ids);
+        //上架
+        int Sj(string ids);
+        //删除评论
+        Task<int> EvaluateDel(string ids);
+
         //获取订单信息
+
         Task<List<OrderModel>> GetOrdersAsync(int? states);
         //获取订单详情
         Task<List<OrderModel>> GetOrdersDetialAsync(int ids);
         //获取发货
         Task<List<OrderModel>> GetOrdersDeliverAsync();
+
         //运单
         Task<List<WayBillModel>> GetWayBills();
         //订单取消
         Task<List<OrdeCancelModel>> GetOrdeCancels();
-        Task< List<inquire>> GetShowAsync();
+ 
         //修改后添加
         Task<int> UptAdd(OrdeCancelModel c);
         //批删取消原因
@@ -56,7 +80,19 @@ namespace ElectricityManagementAPI.Dal
         Task<int> UptFreightAsync(string Id);
         //详情显示包裹中心
         Task<List<p_package>> DetailspackageAsync(int id);
+
+        //商品评论
+        Task<List<Evaluate>> EvaluatesAsync();
+        //规格显示
+        Task<List<Specification>> Specifications();
+        Task<int> SpDel(string ids);//规格删除
+        Task<int> SpAdd(Specification s);//规格添加
+        Task<int> SpUpt(Specification s);//规格修改
+        Specification SpFt(string ids);//反填规格
+        
+
         //批量发货
         Task<int> GetVAsync(string WayBiilNumber, string WayBillOrderId, string WayBillExpress);
+
     }
 }
