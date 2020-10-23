@@ -11,7 +11,6 @@ namespace ElectricityManagementAPI.Dal
     {
 
 
-
         Task<List<brand>> BrandAsync();
         Task<List<Commodity>> commoditiesAsync();//显示商品
         Task<List<Commodity>> commodeleteAsync();//回收站的商品
@@ -30,7 +29,6 @@ namespace ElectricityManagementAPI.Dal
         int Sj(string ids);
         //删除评论
         Task<int> EvaluateDel(string ids);
-
         //获取订单信息
 
         Task<List<OrderModel>> GetOrdersAsync(int? states);
@@ -58,28 +56,32 @@ namespace ElectricityManagementAPI.Dal
         Task<int> Addcancel(OrdeCancelModel cc);
 
 
-        //包裹中心表
-        Task<List<p_package>> GetPackagesAsync();
-        //显示快递公司表
-        Task<List<e_experssage>> GetExperssagesAsync(string Ephone, string EName);
-        //显示地址表
+        //显示地址
         Task<List<a_address>> GetAddressesAsync();
-        //显示运费模板
-        Task<List<f_freight>> GetFreightsAsync();
-        //添加运费模板
-        Task<int> AddFreightAsync(f_freight model);
-        //添加网点申请
-        Task<int> AddBranchAsync(b_branch model);
-        //添加京东申请
-        Task<int> AddJingdongAsync(j_jingdong model);
-        //添加新增地址
-        Task<int> AddAddressAsync(a_address model);
-        //(假删)删除地址、逻辑删除
-        Task<int> UptAddressAsync(string Id);
-        //(假删)删除运费模板、逻辑删除
-        Task<int> UptFreightAsync(string Id);
-        //详情显示包裹中心
-        Task<List<p_package>> DetailspackageAsync(int id);
+        //显示快递公司表
+        Task<List<e_experssage>> GetExperssagesAsync(string EName,string Eofficial);
+        //显示包裹中心
+        Task<List<p_package>> GetPackagesAsync(string Pstate,string EName,string Podd,string Pordernumber);
+        //详情页（快递公司）
+        Task<List<e_experssage>> DetailsExperssagesAsync(int id);
+        //修改（设为收货地址）
+        Task<int> UpdAddressAsync(int id);
+        //添加网点
+        Task<int> AddBranchAsync(b_branch b);
+        //添加京东
+        Task<int> AddJingdongAsync(j_jingdong j);
+        //处理异常(包裹中心)
+        Task<int> AddPackagesAsync(p_package p);
+        //删除地址
+        Task<int> DelAddressesAsync(int id);
+        //添加地址
+        Task<int> AddAddressesAsync(a_address a);
+        //反填地址
+        Task<List<a_address>> FandAddressAsync(int id);
+        //更新地址
+        Task<int> UptAddressAsync(a_address a);
+        //详情页（包裹中心）
+        Task<List<p_package>> DetailsPackageAsync(int id);
 
         //商品评论
         Task<List<Evaluate>> EvaluatesAsync();

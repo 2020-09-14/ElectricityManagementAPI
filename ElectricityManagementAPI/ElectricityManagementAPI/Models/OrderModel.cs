@@ -47,5 +47,7 @@ namespace ElectricityManagementAPI.Models
         public string Ephone { get; set; }
         public string Eofficial { get; set; }
      
+
+        public int OrdeCancelStateId { get; set; }
     }
 }

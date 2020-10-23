@@ -1,16 +1,24 @@
-﻿using System;
+﻿using ElectricityManagementAPI.Dal;
+using ElectricityManagementAPI.Helper;
+using ElectricityManagementAPI.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
+using Newtonsoft.Json;
+using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics.Contracts;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using ElectricityManagementAPI.Dal;
-using ElectricityManagementAPI.Models;
-using ElectricityManagementAPI.Helper;
-using Newtonsoft.Json;
 
 namespace ElectricityManagementAPI.Controller
 {
+    /// <summary>
+    /// 物流管理
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class DistributionController : ControllerBase
@@ -20,66 +28,115 @@ namespace ElectricityManagementAPI.Controller
         {
             _management = electricity;
         }
+
         //显示地址
         [HttpGet]
-        [Route("/api/GetShowAsync")]
-        public async Task<IActionResult> GetShowAsync(int page,int limit)
+        [Route("/api/GetAddressesAsync")]
+        public async Task<IActionResult> GetAddressesAsync()
         {
-            var GetAddresses = await _management.GetAddressesAsync();
-            var Acount = GetAddresses.Count();
-            var list = GetAddresses.Skip((page - 1) * limit).Take(limit).ToList();
-            JsonData jsons = new JsonData { code = 0, msg = "", count = Acount+1, data = list };
-            string json = JsonConvert.SerializeObject(jsons);
-            return Ok(json);
+            var josn = await _management.GetAddressesAsync();
+            var list = JsonConvert.SerializeObject(josn);
+            return Ok(list);
         }
         //显示快递公司表
         [HttpGet]
         [Route("/api/ExperssagesAsync")]
-        public Task<List<e_experssage>> ExperssagesAsync(string Ephone, string EName)
+        public async Task<IActionResult> ExperssagesAsync(string EName, string Eofficial)
         {
-            return _management.GetExperssagesAsync(Ephone, EName);
-        }
-        //显示运费模板
-        [HttpGet]
-        [Route("/api/FreightsAsync")]
-        public Task<List<f_freight>> FreightsAsync()
-        {
-            return _management.GetFreightsAsync();
+            var josn = await _management.GetExperssagesAsync(EName,Eofficial);
+            var list = JsonConvert.SerializeObject(josn);
+            return Ok(list);
         }
         //显示包裹中心
         [HttpGet]
-        [Route("/api/GetPackagesAsync")]
-        public Task<List<p_package>> GetPackagesAsync() 
+        [Route("/api/PackagesAsync")]
+        public async Task<IActionResult> PackagesAsync(string Pstate, string EName, string Podd, string Pordernumber)
         {
-            return _management.GetPackagesAsync();
+            var GetPackages = await _management.GetPackagesAsync(Pstate, EName, Podd, Pordernumber);
+            string json = JsonConvert.SerializeObject(GetPackages);
+            return Ok(json);
         }
-        //添加运费模板
-        [HttpPost]
-        [Route("/api/GetFreightsAsync")]
-        public Task<int> GetFreightsAsync([FromForm]f_freight model) 
+        //详情页（快递公司）
+        [HttpGet]
+        [Route("/api/DetailsExperssagesAsync")]
+        public async Task<IActionResult> DetailsExperssagesAsync(int id) 
         {
-            return _management.AddFreightAsync(model);
+            var details =await  _management.DetailsExperssagesAsync(id);
+            string json = JsonConvert.SerializeObject(details);
+            return Ok(json);
         }
-        //添加网点申请
+        //修改（设为收货地址）
         [HttpPost]
-        [Route("/api/GetFreightsAsync")]
-        public Task<int> AddBranchAsync([FromForm]b_branch model) 
+        [Route("/api/UpdAddressAsync")]
+        public async Task<IActionResult> UpdAddressAsync(int id) 
         {
-            return _management.AddBranchAsync(model);
+            int i = await _management.UpdAddressAsync(id);
+            return Ok(i);
         }
-        //添加京东申请
+        //添加网点
         [HttpPost]
-        [Route("/api/GetFreightsAsync")]
-        public Task<int> AddBranchAsync([FromForm] j_jingdong model) 
+        [Route("/api/AddBranchAsync")]
+        public async Task<IActionResult> AddBranchAsync([FromForm]b_branch b) 
         {
-            return _management.AddJingdongAsync(model);
+            int list = (await _management.AddBranchAsync(b));
+            return Ok(list);
+        }
+        //添加京东
+        [HttpPost]
+        [Route("/api/AddJingdongAsync")]
+        public async Task<IActionResult> AddJingdongAsync([FromForm]j_jingdong j) 
+        {
+            int list = (await _management.AddJingdongAsync(j));
+            return Ok(list);
+        }
+        //删除地址
+        [HttpPost]
+        [Route("/api/DelAddressAsync")]
+        public async Task<IActionResult> DelAddressAsync(int id) 
+        {
+            int list = (await _management.DelAddressesAsync(id));
+            return Ok(list);
         }
         //添加地址
         [HttpPost]
         [Route("/api/AddAddressAsync")]
-        public Task<int> AddAddressAsync([FromForm] a_address model) 
+        public async Task<IActionResult> AddAddressAsync([FromBody]a_address a) 
         {
-            return _management.AddAddressAsync(model);
+            int list = (await _management.AddAddressesAsync(a));
+            return Ok(list);
+        }
+        //反填地址
+        [HttpPost]
+        [Route("/api/FandAddressAsync")]
+        public async Task<IActionResult> FandAddressAsync(int id) 
+        {
+            var details = await _management.FandAddressAsync(id);
+            string json = JsonConvert.SerializeObject(details);
+            return Ok(json);
+        }
+        //更新地址 
+        [HttpPost]
+        [Route("/api/UptAddressAsync")]
+        public async Task<IActionResult> UptAddressAsync([FromBody]a_address a) 
+        {
+            int list = (await _management.UptAddressAsync(a));
+            return Ok(list);
+        }
+        //详情页（包裹中心）
+        [HttpPost]
+        [Route("/api/DetailsPackageAsync")]
+        public async Task<IActionResult> DetailsPackageAsync(int id) 
+        {
+            string json = JsonConvert.SerializeObject(await _management.DetailsPackageAsync(id));
+            return Ok(json);
+        }
+        //更新地址 
+        [HttpPost]
+        [Route("/api/AddPackagesAsync")]
+        public async Task<IActionResult> AddPackagesAsync([FromForm]p_package p)
+        {
+            int i = await _management.AddPackagesAsync(p);
+            return Ok(i);
         }
     }
 }

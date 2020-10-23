@@ -2,15 +2,9 @@
 
 using ElectricityManagementAPI;
 using ElectricityManagementAPI.Models;
-
 using Microsoft.AspNetCore.Components;
-
-
-
 using ElectricityManagementAPI.Helper;
-
 using Microsoft.Extensions.Configuration;
-
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -18,7 +12,8 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-
+using OfficeOpenXml;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ElectricityManagementAPI.Dal
 {
@@ -31,7 +26,8 @@ namespace ElectricityManagementAPI.Dal
         public ElectricityManagement(IConfiguration configuration)
         {
 
-            _connectionString = configuration.GetConnectionString("MySqlWang");
+            _connectionString = configuration.GetConnectionString("Shenwenjie");
+            
           
         }
         //品牌添加
@@ -80,20 +76,12 @@ namespace ElectricityManagementAPI.Dal
         //显示未发货
         public async Task<List<OrderModel>> GetOrdersDeliverAsync()
         {
-
             string sql = $"select * from `order`  join goods  on OrderGoodsId=goodsId join buyerinfo on OrderBuyerId=BuyerInfold join buyerrelation on BuyerInfoPlace=BuyerRelationInfo join buyeraddress on BuyerRelationAddress = BuyerAddressId where 1 =1 and  buyerrelation.BuyerRelationState = 1  and Orderstate = 3 ";
-          
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
                 return (await conn.QueryAsync<OrderModel>(sql)).ToList();
             }
-
-            
-
-
         }
-
-
         //品牌显示
         public async Task<List<brand>> BrandAsync()
         {
@@ -121,13 +109,29 @@ namespace ElectricityManagementAPI.Dal
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             return (await tion.QueryAsync<Classify>($"select * from Classify WHERE Cidd = {ids}")).ToList();
         }
-
         //显示文章
         public async Task<List<inquire>> GetShowAsync()
         {
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             return  (await tion.QueryAsync<inquire>("SELECT * from Article a join Category c on a.CategoryId=c.CID WHERE c.CState=1")).ToList();
 
+        }
+        // 显示快递公司表
+        public async Task<List<e_experssage>> GetExperssagesAsync(string EName, string Eofficial)
+        {
+            string sql = $"SELECT * from e_experssage where 1=1";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                if (!string.IsNullOrEmpty(EName))
+                {
+                    sql += $" and EName='{EName}'";
+                }
+                if (!string.IsNullOrEmpty(Eofficial))
+                {
+                    sql += $" and Eofficial='{Eofficial}'";
+                }
+                return (await conn.QueryAsync<e_experssage>(sql)).ToList();
+            }
         }
         /// <summary>
         /// 商品添加
@@ -190,113 +194,146 @@ namespace ElectricityManagementAPI.Dal
             return (await tion.QueryAsync<Commodity>("SELECT commodity.Cidd,CommodityId,ClassifyId,SCname,Recommend,Bname,commodity.Img,Introduce,Inventory,commodity.State,Price,commodity.CreaTime from commodity JOIN classify ON ClassifyId  = CommodityId  JOIN brand on brand.Brandid = commodity.Bidd WHERE commodity.delstate = '0'")).ToList();
         }
         //添加地址
-        public async Task<int> AddAddressAsync(a_address model)
-        {
-            string sql = $"insert int a_address values ('{model.Abbreviation}','{model.Aconsigner}','{model.Aphone}','{model.Address}','{model.Adeltailedaddress}','{model.Abbreviation}','{model.Areceivingpoint}',getdate,'{model.Astate}')";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+        public async Task<int> AddAddressAsync(a_address a)
+        { 
+            string sql = $"INSERT into a_address(Abbreviation,Aconsigner,Aphone,Address,Adeltailedaddress,Adeliverypoint,Areceivingpoint,Atime) VALUES('{a.Abbreviation}', '{a.Aconsigner}', '{a.Aphone}', '{a.Address}', '{a.Adeltailedaddress}', {a.Adeliverypoint}, {a.Areceivingpoint}, '{DateTime.Now}')";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
             {
-                return (await conn.ExecuteAsync(sql));
-            }
-        }
-        //添加申请网点
-        public async Task<int> AddBranchAsync(b_branch model)
-        {
-            string sql = $"insert into b_branch(Bmerchant,Bcheckout,Btime) values('{model.MBmerchant}','{model.Bcheckout}',now());";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
-            {
-                return (await conn.ExecuteAsync(sql));
-            }
-        }
-        //添加地址模板
-        public async Task<int> AddFreightAsync(f_freight model)
-        {
-            string sql = $"";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
-            {
-                return (await conn.ExecuteAsync(sql));
-            }
-        }
-        //添加京东申请表
-        public async Task<int> AddJingdongAsync(j_jingdong model)
-        {
-            string sql = $"insert into j_jingdong values ('{model.Jmerchant}','{model.Jidentification}','{model.Jtype}','{model.Jquantity}','{model.Jquantity}','{model.Jfirstheavy}','{model.Jcountined}',getdate())";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
-            {
-                return (await conn.ExecuteAsync(sql));
-            }
-        }
-        //删除地址、按照逻辑删除
-        public async Task<int> UptAddressAsync(string Id)
-        {
-            string sql = $"update a_address  SET Astate=Astate+1 where  Aid in {Id};";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
-            {
-                return (await conn.ExecuteAsync(sql));
-            }
-        }
-        /// 删除运费模板、按照逻辑删除
-        public async Task<int> UptFreightAsync(string Id)
-        {
-            string sql = $"UPDATE f_freight set Fstate=Fstate+1 where Fid in {Id};";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
-            {
-                return (await conn.ExecuteAsync(sql));
-            }
-        }
-        //显示地址表
-        public async Task<List<a_address>> GetAddressesAsync()
-        {
-            //string sql = $"select * from a_address";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
-            {
-                return (await conn.QueryAsync<a_address>("select * from a_address")).ToList();
-            }
-        }
-        // 显示快递公司表
-        public async Task<List<e_experssage>> GetExperssagesAsync(string Ephone, string EName)
-        {
-            string sql = $"select * from e_experssage where 1=1";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
-            {
-                //查询手机号
-                if (Ephone != null)
-                {
-                    sql += $" and Ephone='{Ephone}'";
-                }
-                //查询企业名称
-                if (EName != null)
-                {
-                    sql += $" and EName  liek '%{EName}%'";
-                }
-                return (await conn.QueryAsync<e_experssage>(sql)).ToList();
+                int i = (await conn.ExecuteAsync(sql));
+                return i;
             }
 
         }
-        //显示运费模板
-        public async Task<List<f_freight>> GetFreightsAsync()
+        //详情页（快递公司）
+        public async Task<List<e_experssage>> DetailsExperssagesAsync(int id)
         {
-            string sql = $"select * from f_freight";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            string sql = $"SELECT * from e_experssage WHERE Eid={id}";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
             {
-                return (await conn.QueryAsync<f_freight>(sql)).ToList();
+                return (await conn.QueryAsync<e_experssage>(sql)).ToList();
             }
         }
         //显示包裹中心
-        public async Task<List<p_package>> GetPackagesAsync()
+        public async Task<List<p_package>> GetPackagesAsync(string Pstate, string EName, string Podd, string Pordernumber)
         {
-            string sql = $"SELECT * from p_package p join e_experssage  e on p.Eid=e.Eid;";
+            string sql = $"select * from p_package  p   join e_experssage e ON p.Eid=e.Eid join `order` o on p.Pordernumber=o.OrderId  where  1=1";
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                if (!string.IsNullOrEmpty(Pstate))
+                {
+                    sql += $" and Pstate='{Pstate}'";
+                }
+                if (!string.IsNullOrEmpty(EName))
+                {
+                    sql += $" and EName='{EName}'";
+                }
+                if (!string.IsNullOrEmpty(Podd))
+                {
+                    sql += $" and Podd='{Podd}'";
+                }
+                if (!string.IsNullOrEmpty(Pordernumber))
+                {
+                    sql += $" and Pordernumber like '{Pordernumber}'";
+                }
+                return (await conn.QueryAsync<p_package>(sql)).ToList();
+            }
+        }
+
+        //显示地址
+        public async Task<List<a_address>> GetAddressesAsync()
+        {
+            string sql = $"select * from a_address";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                return (await conn.QueryAsync<a_address>(sql)).ToList();
+            }
+        }
+        //修改（设为收货地址）
+        public async Task<int> UpdAddressAsync(int id)
+        {
+            string sql = $"UPDATE a_address set Adeliverypoint=Adeliverypoint+1 where Aid={id}";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                return (await conn.ExecuteAsync(sql));
+            }
+        }
+
+        //添加网点表
+        public async Task<int> AddBranchAsync(b_branch b) 
+        {
+            string sql = $"";
+            using (MySqlConnection conn=new MySqlConnection())
+            {
+                return await conn.ExecuteAsync(sql);
+            }
+        }
+
+        //添加京东
+        public async Task<int> AddJingdongAsync(j_jingdong j)
+        {
+            string sql = $"INSERT into j_jingdong(Jmerchant,Jidentification,Jtype,Jquantity,Jfirstheavy,Jcountined,Jtime) VALUES ('{j.Jmerchant}','{j.Jidentification}','{j.Jtype}','{j.Jquantity}','{j.Jfirstheavy}','{j.Jcountined}','{DateTime.Now}')";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                int list = (await conn.ExecuteAsync(sql));
+                return list;
+            }
+        }
+        //删除地址
+        public async Task<int> DelAddressesAsync(int id)
+        {
+            string sql = $"DELETE from  a_address where Aid={id}";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                int list = (await conn.ExecuteAsync(sql));
+                return list;
+            }
+        }
+        //添加地址
+        public async Task<int> AddAddressesAsync(a_address a)
+        {
+            string sql = $"INSERT into a_address(Abbreviation,Aconsigner,Aphone,Address,Adeltailedaddress,Adeliverypoint,Areceivingpoint,Atime) VALUES('{a.Abbreviation}','{a.Aconsigner}','{a.Aphone}','{a.Address}','{a.Adeltailedaddress}',{a.Adeliverypoint},{a.Areceivingpoint},'{DateTime.Now}')";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                int list = (await conn.ExecuteAsync(sql));
+                return list;
+            }
+        }
+        //反填地址
+        public async Task<List<a_address>> FandAddressAsync(int id)
+        {
+            string sql = $"SELECT * from a_address where Aid={id}";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                return (await conn.QueryAsync<a_address>(sql)).ToList();
+            }
+        }
+        //修改地址
+        public async Task<int> UptAddressAsync(a_address a)
+        {
+            string sql = $"update a_address set Abbreviation='{a.Abbreviation}',Aconsigner='{a.Aconsigner}',Aphone='{a.Aphone}',Address='{a.Address}',Adeltailedaddress='{a.Adeltailedaddress}',Adeliverypoint='{a.Adeliverypoint}',Areceivingpoint='{a.Areceivingpoint}'  where Aid={a.Aid}";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                int list = (await conn.ExecuteAsync(sql));
+                return list;
+            }
+        }
+        //详情页（包裹中心）
+        public async Task<List<p_package>> DetailsPackageAsync(int id)
+        {
+            string sql = $"select * from p_package  p   join e_experssage e ON p.Eid=e.Eid join `order` o on p.Pordernumber=o.OrderId where p.Pid={id}";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
             {
                 return (await conn.QueryAsync<p_package>(sql)).ToList();
             }
         }
-        //详情显示包裹中心
-        public async Task<List<p_package>> DetailspackageAsync(int id)
+
+        //处理异常（包裹中心）
+        public async Task<int> AddPackagesAsync(p_package p)
         {
-            string sql = $"SELECT * from p_package p join e_experssage  e on p.Eid=e.Eid where Pid={id}";
+            string sql = $"INSERT into p_package(Pstatus,Pdescribe) VALUE({p.Pstatus},'{p.Pdescribe}')";
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
-                return (await conn.QueryAsync<p_package>(sql)).ToList();
+                return (await conn.ExecuteAsync(sql));
             }
         }
 
@@ -451,7 +488,6 @@ namespace ElectricityManagementAPI.Dal
             {
 
                 return await conn.ExecuteAsync(sql);
-
             }
         }
     }

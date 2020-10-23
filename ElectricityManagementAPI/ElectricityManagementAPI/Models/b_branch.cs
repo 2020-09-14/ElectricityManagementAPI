@@ -11,8 +11,8 @@ namespace ElectricityManagementAPI.Models
     public class b_branch
     {
         public int Bid { get; set; }//主键编号
-        public string MBmerchant { get; set; }//商家编号
+        public string Bmerchant { get; set; }//商家编号
         public string Bcheckout { get; set; }//检验字段
-        public string Btime { get; set; }//时间
+        public DateTime Btime { get; set; }//时间
     }
 }
