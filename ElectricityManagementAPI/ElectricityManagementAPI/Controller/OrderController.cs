@@ -20,11 +20,7 @@ namespace ElectricityManagementAPI.Controller
             _electricityManagement = electricityManagement;
         }
         [HttpGet]
-        public async Task<IActionResult> GetOder(int states, string   ordernum  ,string  paytype   ,string buyerliu  ,string begintime ,string overtime  , string goodsname , string goodsnum  ,
-              string buyername ,
-              string tel       ,
-            int page,
-            int pageSize)
+        public async Task<IActionResult> GetOder(int states, string   ordernum  ,string  paytype   ,string buyerliu  ,string begintime ,string overtime  , string goodsname , string goodsnum  ,string buyername ,string tel,int page,int pageSize)
         {
             List<OrderModel> GetOrders = await _electricityManagement.GetOrdersAsync(states);
             if (!string.IsNullOrEmpty(ordernum))
@@ -99,9 +95,59 @@ namespace ElectricityManagementAPI.Controller
             return Ok(await _electricityManagement.GetVAsync(WayBiilNumber, WayBillOrderId, WayBillExpress));
         }
 
+        //退货列表
+        [HttpGet]
+        [Route("/api/GetSales")]
+        public async Task<IActionResult> GetSales(string SalesNumber,string OrderNumber,string BuyerAddressTel,string BuyerAddressName, string begintime, string overtime, string EName,int page,int pageSize) 
+        {
+            List<SalesModel> GetOrders = await _electricityManagement.GetSales();
 
-        
+            if (!string.IsNullOrEmpty(SalesNumber))
+            {
+                GetOrders = GetOrders.Where(t=>t.SalesNumber.Contains(SalesNumber)).ToList();
+            }
+            //订单号查询
+            if (!string.IsNullOrEmpty(OrderNumber))
+            {
+                GetOrders = GetOrders.Where(t=>t.OrderNumber.Contains(OrderNumber)).ToList();
+            }
 
+            if (!string.IsNullOrEmpty(BuyerAddressTel))
+            {
+                GetOrders = GetOrders.Where(t => t.BuyerInfoTel.Contains(BuyerAddressTel)).ToList();
+            }
+            
+            if (!string.IsNullOrEmpty(BuyerAddressName))
+            {
+                GetOrders = GetOrders.Where(t => t.BuyerInfoName.Contains(BuyerAddressName)).ToList();
+            }
+            
+            if (!string.IsNullOrEmpty(begintime) || !string.IsNullOrEmpty(overtime))
+            {
 
+                GetOrders = GetOrders.Where(t => t.SalesTime > Convert.ToDateTime(begintime) && t.SalesTime < Convert.ToDateTime(overtime)).ToList();
+            }
+            //商品名称
+            if (!string.IsNullOrEmpty(EName))
+            {
+                GetOrders = GetOrders.Where(t =>t.EName.Contains(EName)).ToList();
+            }
+            var count = GetOrders.Count;
+            GetOrders = GetOrders.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var model = new
+            {
+                counts = count,
+                lists = GetOrders
+            };
+            return Ok(model);
+        }
+        //
+        [HttpGet]
+        [Route("/api/DetailsSales")]
+        public async Task<IActionResult> DetailsSales(int id) 
+        {
+            List<SalesModel> list = (await _electricityManagement.DetailsSales(id));
+            return Ok(list);
+        }
     }
 }

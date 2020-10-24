@@ -95,6 +95,9 @@ namespace ElectricityManagementAPI.Dal
 
         //批量发货
         Task<int> GetVAsync(string WayBiilNumber, string WayBillOrderId, string WayBillExpress);
-
+        //退货列表
+        Task<List<SalesModel>> GetSales();
+        //详情
+        Task<List<SalesModel>> DetailsSales(int id);
     }
 }

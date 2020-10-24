@@ -490,5 +490,23 @@ namespace ElectricityManagementAPI.Dal
                 return await conn.ExecuteAsync(sql);
             }
         }
+        //退货显示
+        public async Task<List<SalesModel>> GetSales()
+        {
+            string sql = $"SELECT * from sales s  join   `order` o on s.ReturnSalesId = o.OrderId join goods  g on  o.OrderGoodsId = g.GoodsId ";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                return (await conn.QueryAsync<SalesModel>(sql)).ToList();
+            }
+        }
+
+        public async Task<List<SalesModel>> DetailsSales(int id)
+        {
+            string sql = $"SELECT* from sales s  join   `order` o on s.ReturnSalesId = o.OrderId join goods  g on  o.OrderGoodsId = g.GoodsId  where s.SalesId={id}";
+            using (MySqlConnection conn=new MySqlConnection(sql))
+            {
+                return (await conn.QueryAsync<SalesModel>(sql)).ToList();
+            }
+        }
     }
 }
