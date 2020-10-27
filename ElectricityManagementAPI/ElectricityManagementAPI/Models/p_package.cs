@@ -17,11 +17,11 @@ namespace ElectricityManagementAPI.Models
         public int Pordernumber { get; set; }//订单号
         public string Pstate { get; set; }//包裹状态
         public string Panomaly { get; set; }//异常状态
-        public DateTime Panomalytime { get; set; }//异常时长
+        public string Panomalytime { get; set; }//异常时长
         public bool PapprovalStatus { get; set; }//审批状态
-        public bool Pstatus { get; set; }
+        public bool Pstatus { get; set; }//
         public string Pdescribe { get; set; }//问题描述
-        public string EName { get; set; }
-        public string OrderNumber { get; set; }
+        public string EName { get; set; }//快递公司
+        public string OrderNumber { get; set; }//快递单号
     }
 }

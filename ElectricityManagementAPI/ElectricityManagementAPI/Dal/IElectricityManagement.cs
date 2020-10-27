@@ -55,13 +55,12 @@ namespace ElectricityManagementAPI.Dal
         //添加
         Task<int> Addcancel(OrdeCancelModel cc);
 
-
         //显示地址
         Task<List<a_address>> GetAddressesAsync();
         //显示快递公司表
         Task<List<e_experssage>> GetExperssagesAsync(string EName,string Eofficial);
         //显示包裹中心
-        Task<List<p_package>> GetPackagesAsync(string Pstate,string EName,string Podd,string Pordernumber);
+        Task<List<p_package>> GetPackagesAsync();
         //详情页（快递公司）
         Task<List<e_experssage>> DetailsExperssagesAsync(int id);
         //修改（设为收货地址）

@@ -141,7 +141,7 @@ namespace ElectricityManagementAPI.Controller
             };
             return Ok(model);
         }
-        //
+        //显示退货申请-待审核
         [HttpGet]
         [Route("/api/DetailsSales")]
         public async Task<IActionResult> DetailsSales(int id) 

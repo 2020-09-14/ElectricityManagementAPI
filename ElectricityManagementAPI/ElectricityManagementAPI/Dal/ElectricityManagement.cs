@@ -19,9 +19,7 @@ namespace ElectricityManagementAPI.Dal
 {
     public class ElectricityManagement : IElectricityManagement
     {
-
         private readonly string _connectionString;
-       
         //大傻春
         public ElectricityManagement(IConfiguration configuration)
         {
@@ -214,31 +212,15 @@ namespace ElectricityManagementAPI.Dal
             }
         }
         //显示包裹中心
-        public async Task<List<p_package>> GetPackagesAsync(string Pstate, string EName, string Podd, string Pordernumber)
+        public async Task<List<p_package>> GetPackagesAsync(string Pstate, string EName, string Podd, string Pordernumber,string Panomaly)
         {
             string sql = $"select * from p_package  p   join e_experssage e ON p.Eid=e.Eid join `order` o on p.Pordernumber=o.OrderId  where  1=1";
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
-                if (!string.IsNullOrEmpty(Pstate))
-                {
-                    sql += $" and Pstate='{Pstate}'";
-                }
-                if (!string.IsNullOrEmpty(EName))
-                {
-                    sql += $" and EName='{EName}'";
-                }
-                if (!string.IsNullOrEmpty(Podd))
-                {
-                    sql += $" and Podd='{Podd}'";
-                }
-                if (!string.IsNullOrEmpty(Pordernumber))
-                {
-                    sql += $" and Pordernumber like '{Pordernumber}'";
-                }
+               
                 return (await conn.QueryAsync<p_package>(sql)).ToList();
             }
         }
-
         //显示地址
         public async Task<List<a_address>> GetAddressesAsync()
         {
@@ -257,17 +239,16 @@ namespace ElectricityManagementAPI.Dal
                 return (await conn.ExecuteAsync(sql));
             }
         }
-
         //添加网点表
         public async Task<int> AddBranchAsync(b_branch b) 
         {
-            string sql = $"";
+            string sql = $"INSERT into b_branch(Bmerchant,Bcheckout) values ('{b.Bmerchant}','{b.Bcheckout}')";
             using (MySqlConnection conn=new MySqlConnection())
             {
-                return await conn.ExecuteAsync(sql);
+                int i = (await conn.ExecuteAsync(sql));
+                return i;
             }
         }
-
         //添加京东
         public async Task<int> AddJingdongAsync(j_jingdong j)
         {
@@ -326,7 +307,6 @@ namespace ElectricityManagementAPI.Dal
                 return (await conn.QueryAsync<p_package>(sql)).ToList();
             }
         }
-
         //处理异常（包裹中心）
         public async Task<int> AddPackagesAsync(p_package p)
         {
@@ -336,7 +316,6 @@ namespace ElectricityManagementAPI.Dal
                 return (await conn.ExecuteAsync(sql));
             }
         }
-
         //商品评论
         public async Task<List<Evaluate>> EvaluatesAsync()
         {
@@ -355,7 +334,6 @@ namespace ElectricityManagementAPI.Dal
                 return (await conn.ExecuteAsync(sql));
             }
         }
-
         //规格显示
         public async Task<List<Specification>> Specifications()
         {
@@ -499,7 +477,7 @@ namespace ElectricityManagementAPI.Dal
                 return (await conn.QueryAsync<SalesModel>(sql)).ToList();
             }
         }
-
+        //显示退货申请-待审核
         public async Task<List<SalesModel>> DetailsSales(int id)
         {
             string sql = $"SELECT* from sales s  join   `order` o on s.ReturnSalesId = o.OrderId join goods  g on  o.OrderGoodsId = g.GoodsId  where s.SalesId={id}";
