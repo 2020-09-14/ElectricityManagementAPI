@@ -101,6 +101,12 @@ namespace ElectricityManagementAPI.Dal
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             return (await tion.QueryAsync<Classify>("select * from Classify WHERE Cidd = 0")).ToList();
         }
+        //分类显示
+        public async Task<List<Classify>> ClassShow()
+        {
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.QueryAsync<Classify>("select * from Classify ")).ToList();
+        }
         //分类子集
         public async Task<List<Classify>> GetClassifies(int ids)
         {
@@ -138,7 +144,7 @@ namespace ElectricityManagementAPI.Dal
         /// <returns></returns>
         public async Task<int> CommAddAsunc(Commodity b)
         {
-            string sql = $"insert into commodity(Recommend,Bidd,Pay,Img,Introduce,Inventory,Cidd,Creatime,SCname,State,Price) values('{b.Recommend}','{b.Bidd}','{b.Pay}','{b.Img}','{b.Introduce}','{b.Inventory}','{b.Cidd}','{DateTime.Now}','{b.SCname}','{1}','{b.Price}')";
+            string sql = $"insert into commodity(Recommend,Bidd,Pay,Img,Introduce,Inventory,Cidd,Creatime,SCname,State,Price,delstate) values('{b.Recommend}','{b.Bidd}','{b.Pay}','{b.Img}','{b.Introduce}','{b.Inventory}','{b.Cidd}','{DateTime.Now}','{b.SCname}','{1}','{b.Price}','1')";
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             int i = await tion.ExecuteAsync(sql);
             return i;
@@ -190,6 +196,12 @@ namespace ElectricityManagementAPI.Dal
         {
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             return (await tion.QueryAsync<Commodity>("SELECT commodity.Cidd,CommodityId,ClassifyId,SCname,Recommend,Bname,commodity.Img,Introduce,Inventory,commodity.State,Price,commodity.CreaTime from commodity JOIN classify ON ClassifyId  = CommodityId  JOIN brand on brand.Brandid = commodity.Bidd WHERE commodity.delstate = '0'")).ToList();
+        }
+        //还原
+        public int Huan(string ids)
+        {
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return tion.Execute($"UPDATE commodity set delstate= 1 WHERE CommodityId = '{ids}'");
         }
         //添加地址
         public async Task<int> AddAddressAsync(a_address a)

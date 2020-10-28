@@ -25,7 +25,29 @@ namespace ElectricityManagementAPI.Controller
         {
             electricity = electricityManagement;
         }
-        
+        //分类显示
+        [Route("/api/claShow")]
+        [HttpGet]
+        public async Task<IActionResult> ClassShow(int page, int rows)
+        {
+            List<Classify> GetList = await electricity.ClassShow();
+            int count = GetList.Count;
+            GetList = GetList.Skip((page - 1) * rows).Take(rows).ToList();
+            var model = new
+            {
+                count = count,
+                list = GetList
+            };
+
+            return Ok(model);
+        }
+        //还原
+        [Route("/api/Huan")]
+        [HttpGet]
+        public IActionResult Huan(string ids)
+        {
+            return Ok(electricity.Huan(ids));
+        }
         //品牌
         [Route("/api/Pinpai")]
         [HttpGet]

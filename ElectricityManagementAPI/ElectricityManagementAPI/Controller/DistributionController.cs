@@ -48,41 +48,7 @@ namespace ElectricityManagementAPI.Controller
             var list = JsonConvert.SerializeObject(josn);
             return Ok(list);
         }
-        //显示包裹中心
-        [HttpGet]
-        [Route("/api/PackagesAsync")]
-        public async Task<IActionResult> PackagesAsync(string Pstate, string EName, string Podd, string Pordernumber, string Panomaly,int page,int pageSize)
-        {
-            List<p_package> GetPackages = await _management.GetPackagesAsync();
-            if (!string.IsNullOrEmpty(Pstate))
-            {
-                GetPackages = GetPackages.Where(s => s.Pstate.Contains(Pstate)).ToList();
-            }
-            if (!string.IsNullOrEmpty(EName))
-            {
-                GetPackages = GetPackages.Where(s => s.EName.Contains(EName)).ToList();
-            }
-            if (!string.IsNullOrEmpty(Podd))
-            {
-                GetPackages = GetPackages.Where(s => s.Podd.Contains(Podd)).ToList();
-            }
-            if (!string.IsNullOrEmpty(Pordernumber))
-            {
-                GetPackages = GetPackages.Where(s => s.OrderNumber.Contains(Pordernumber)).ToList();
-            }
-            if (!string.IsNullOrEmpty(Panomaly))
-            {
-                GetPackages = GetPackages.Where(s => s.Panomaly.Contains(Panomaly)).ToList();
-            }
-            var count = GetPackages.Count;
-            GetPackages = GetPackages.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-            var model = new
-            {
-                counts = count,
-                lists = GetPackages
-            };
-            return Ok(model);
-        }
+        
         //详情页（快递公司）
         [HttpGet]
         [Route("/api/DetailsExperssagesAsync")]

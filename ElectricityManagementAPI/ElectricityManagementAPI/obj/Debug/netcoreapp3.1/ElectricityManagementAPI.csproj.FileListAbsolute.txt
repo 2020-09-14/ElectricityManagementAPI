@@ -167,3 +167,11 @@ C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\Electrici
 C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.pdb
 C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.genruntimeconfig.cache
 C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.csprojAssemblyReference.cache
+C:\Users\86176\Desktop\电商后台管理API\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\EPPlus.Core.dll
+C:\Users\86176\Desktop\电商后台管理API\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\MySqlConnector.dll
+C:\Users\86176\Desktop\电商后台管理API\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+C:\Users\86176\Desktop\电商后台管理API\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+C:\Users\86176\Desktop\电商后台管理API\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+C:\Users\86176\Desktop\电商后台管理API\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+C:\Users\86176\Desktop\电商后台管理API\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll
+C:\Users\86176\Desktop\电商后台管理API\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll

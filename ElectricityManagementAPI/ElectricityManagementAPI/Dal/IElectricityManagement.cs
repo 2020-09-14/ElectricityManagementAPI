@@ -29,8 +29,13 @@ namespace ElectricityManagementAPI.Dal
         int Sj(string ids);
         //删除评论
         Task<int> EvaluateDel(string ids);
-        //获取订单信息
 
+        //分类显示
+        Task<List<Classify>> ClassShow();
+
+
+        //获取订单信息
+        int Huan(string ids);
         Task<List<OrderModel>> GetOrdersAsync(int? states);
         //获取订单详情
         Task<List<OrderModel>> GetOrdersDetialAsync(int ids);
@@ -59,8 +64,7 @@ namespace ElectricityManagementAPI.Dal
         Task<List<a_address>> GetAddressesAsync();
         //显示快递公司表
         Task<List<e_experssage>> GetExperssagesAsync(string EName,string Eofficial);
-        //显示包裹中心
-        Task<List<p_package>> GetPackagesAsync();
+        
         //详情页（快递公司）
         Task<List<e_experssage>> DetailsExperssagesAsync(int id);
         //修改（设为收货地址）
