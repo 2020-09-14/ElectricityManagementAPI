@@ -55,7 +55,7 @@ namespace ElectricityManagementAPI.Dal
         Task<int> Uptcancel(OrdeCancelModel cc);
         //添加
         Task<int> Addcancel(OrdeCancelModel cc);
-
+        
         //显示地址
         Task<List<a_address>> GetAddressesAsync();
         //显示快递公司表

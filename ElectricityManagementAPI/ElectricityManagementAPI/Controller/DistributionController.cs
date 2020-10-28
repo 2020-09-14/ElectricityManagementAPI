@@ -78,7 +78,7 @@ namespace ElectricityManagementAPI.Controller
         //添加网点
         [HttpPost]
         [Route("/api/AddBranchAsync")]
-        public async Task<IActionResult> AddBranchAsync([FromForm]b_branch b) 
+        public async Task<IActionResult> AddBranchAsync([FromBody]b_branch b) 
         {
             int list = (await _management.AddBranchAsync(b));
             return Ok(list);

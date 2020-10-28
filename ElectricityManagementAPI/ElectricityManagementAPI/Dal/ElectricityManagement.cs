@@ -272,11 +272,10 @@ namespace ElectricityManagementAPI.Dal
         //添加网点表
         public async Task<int> AddBranchAsync(b_branch b) 
         {
-            string sql = $"INSERT into b_branch(Bmerchant,Bcheckout) values ('{b.Bmerchant}','{b.Bcheckout}')";
-            using (MySqlConnection conn=new MySqlConnection())
+            string sql = $"INSERT INTO b_branch(Bmerchant,Bcheckout,Btime) VALUES ('{b.Bmerchant}','{b.Bcheckout}','{DateTime.Now}')";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
             {
-                int i = (await conn.ExecuteAsync(sql));
-                return i;
+                return (await conn.ExecuteAsync(sql));
             }
         }
         //删除地址
