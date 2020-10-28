@@ -32,8 +32,6 @@ namespace ElectricityManagementAPI.Dal
 
         //分类显示
         Task<List<Classify>> ClassShow();
-
-
         //获取订单信息
         int Huan(string ids);
         Task<List<OrderModel>> GetOrdersAsync(int? states);
@@ -41,12 +39,10 @@ namespace ElectricityManagementAPI.Dal
         Task<List<OrderModel>> GetOrdersDetialAsync(int ids);
         //获取发货
         Task<List<OrderModel>> GetOrdersDeliverAsync();
-
         //运单
         Task<List<WayBillModel>> GetWayBills();
         //订单取消
         Task<List<OrdeCancelModel>> GetOrdeCancels();
- 
         //修改后添加
         Task<int> UptAdd(OrdeCancelModel c);
         //批删取消原因
@@ -64,15 +60,15 @@ namespace ElectricityManagementAPI.Dal
         Task<List<a_address>> GetAddressesAsync();
         //显示快递公司表
         Task<List<e_experssage>> GetExperssagesAsync(string EName,string Eofficial);
-        
+
+        //显示包裹中心
+        Task<List<p_package>> GetPackagesAsync(string Pstate, string EName, string Podd, string Pordernumber, string Panomaly);
         //详情页（快递公司）
         Task<List<e_experssage>> DetailsExperssagesAsync(int id);
         //修改（设为收货地址）
         Task<int> UpdAddressAsync(int id);
         //添加网点
         Task<int> AddBranchAsync(b_branch b);
-        //添加京东
-        Task<int> AddJingdongAsync(j_jingdong j);
         //处理异常(包裹中心)
         Task<int> AddPackagesAsync(p_package p);
         //删除地址
@@ -94,8 +90,6 @@ namespace ElectricityManagementAPI.Dal
         Task<int> SpAdd(Specification s);//规格添加
         Task<int> SpUpt(Specification s);//规格修改
         Specification SpFt(string ids);//反填规格
-        
-
         //批量发货
         Task<int> GetVAsync(string WayBiilNumber, string WayBillOrderId, string WayBillExpress);
         //退货列表

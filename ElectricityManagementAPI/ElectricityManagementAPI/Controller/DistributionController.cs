@@ -48,6 +48,15 @@ namespace ElectricityManagementAPI.Controller
             var list = JsonConvert.SerializeObject(josn);
             return Ok(list);
         }
+        //显示包裹中心
+        [HttpGet]
+        [Route("/api/PackagesAsync")]
+        public async Task<IActionResult> PackagesAsync(string Pstate, string EName, string Podd, string Pordernumber, string Panomaly)
+        {
+            var json = await _management.GetPackagesAsync(Pstate,EName,Podd,Pordernumber,Panomaly);
+            var list = JsonConvert.SerializeObject(json);
+            return Ok(list);
+        }
         
         //详情页（快递公司）
         [HttpGet]
@@ -72,14 +81,6 @@ namespace ElectricityManagementAPI.Controller
         public async Task<IActionResult> AddBranchAsync([FromForm]b_branch b) 
         {
             int list = (await _management.AddBranchAsync(b));
-            return Ok(list);
-        }
-        //添加京东
-        [HttpPost]
-        [Route("/api/AddJingdongAsync")]
-        public async Task<IActionResult> AddJingdongAsync([FromForm]j_jingdong j) 
-        {
-            int list = (await _management.AddJingdongAsync(j));
             return Ok(list);
         }
         //删除地址
@@ -112,6 +113,7 @@ namespace ElectricityManagementAPI.Controller
         [Route("/api/UptAddressAsync")]
         public async Task<IActionResult> UptAddressAsync([FromBody]a_address a) 
         {
+            
             int list = (await _management.UptAddressAsync(a));
             return Ok(list);
         }

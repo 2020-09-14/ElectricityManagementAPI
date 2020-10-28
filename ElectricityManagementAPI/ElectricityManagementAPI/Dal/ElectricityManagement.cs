@@ -1,5 +1,4 @@
 ﻿using Dapper;
-
 using ElectricityManagementAPI;
 using ElectricityManagementAPI.Models;
 using Microsoft.AspNetCore.Components;
@@ -224,12 +223,31 @@ namespace ElectricityManagementAPI.Dal
             }
         }
         //显示包裹中心
-        public async Task<List<p_package>> GetPackagesAsync(string Pstate, string EName, string Podd, string Pordernumber,string Panomaly)
+        public async Task<List<p_package>> GetPackagesAsync(string Pstate, string EName, string Podd, string Pordernumber, string Panomaly)
         {
             string sql = $"select * from p_package  p   join e_experssage e ON p.Eid=e.Eid join `order` o on p.Pordernumber=o.OrderId  where  1=1";
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
-               
+                if (!string.IsNullOrEmpty(Pstate))
+                {
+                    sql += $" and Pstate='{Pstate}'";
+                }
+                if (!string.IsNullOrEmpty(EName))
+                {
+                    sql += $" and EName='{EName}'";
+                }
+                if (!string.IsNullOrEmpty(Podd))
+                {
+                    sql += $" and Podd='{Podd}'";
+                }
+                if (!string.IsNullOrEmpty(Pordernumber))
+                {
+                    sql += $" and OrderNumber='{Pordernumber}'";
+                }
+                if (!string.IsNullOrEmpty(Panomaly))
+                {
+                    sql += $" and Panomaly='{Panomaly}'";
+                }
                 return (await conn.QueryAsync<p_package>(sql)).ToList();
             }
         }
@@ -259,16 +277,6 @@ namespace ElectricityManagementAPI.Dal
             {
                 int i = (await conn.ExecuteAsync(sql));
                 return i;
-            }
-        }
-        //添加京东
-        public async Task<int> AddJingdongAsync(j_jingdong j)
-        {
-            string sql = $"INSERT into j_jingdong(Jmerchant,Jidentification,Jtype,Jquantity,Jfirstheavy,Jcountined,Jtime) VALUES ('{j.Jmerchant}','{j.Jidentification}','{j.Jtype}','{j.Jquantity}','{j.Jfirstheavy}','{j.Jcountined}','{DateTime.Now}')";
-            using (MySqlConnection conn=new MySqlConnection(_connectionString))
-            {
-                int list = (await conn.ExecuteAsync(sql));
-                return list;
             }
         }
         //删除地址
@@ -498,5 +506,7 @@ namespace ElectricityManagementAPI.Dal
                 return (await conn.QueryAsync<SalesModel>(sql)).ToList();
             }
         }
+
+
     }
 }

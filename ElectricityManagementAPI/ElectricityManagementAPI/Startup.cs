@@ -75,11 +75,7 @@ namespace ElectricityManagementAPI
             {
                 EnableDirectoryBrowsing = true,//开启目录访问
 
-                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(@"C:\Users\86176\Desktop\电商后台管理API\ElectricityManagementAPI\ElectricityManagementAPI\Images\"),
-
-                
- 
-
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(@"C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\Images\"),
                 RequestPath = new PathString("/Images")
             });
 
