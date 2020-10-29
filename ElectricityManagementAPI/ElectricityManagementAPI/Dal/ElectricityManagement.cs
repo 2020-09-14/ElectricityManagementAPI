@@ -1,20 +1,12 @@
 ﻿using Dapper;
-using ElectricityManagementAPI;
 using ElectricityManagementAPI.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Components;
-using ElectricityManagementAPI.Helper;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using OfficeOpenXml;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace ElectricityManagementAPI.Dal
 {
@@ -24,7 +16,216 @@ namespace ElectricityManagementAPI.Dal
         //大傻春
         public ElectricityManagement(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("GuoKunLong");
+
+            _connectionString = configuration.GetConnectionString("LiuKang");
+        }
+
+      
+
+
+        //限时购列表显示
+        public async Task<List<activity>> GetShowActivities(string States,  string ActionName)
+        {
+            
+            string sql = $"select * from activity where 1=1 ";
+            if (!string.IsNullOrEmpty(States))
+            {
+                sql += $" and State='{States}'";
+            }
+            if (!string.IsNullOrEmpty(ActionName))
+            {
+                sql += $" and Name='{ActionName}'";
+            }
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.QueryAsync<activity>(sql)).ToList();
+
+            }
+               
+        }
+
+
+        //删除限时购活动(单删)
+        public async Task<int> DelActivities(int id)
+        {
+            string sql = $"delete from activity where Id={id}";
+            using (MySqlConnection tion=new MySqlConnection(_connectionString))
+            {
+                return (await tion.ExecuteAsync(sql));
+             
+            }
+        }
+
+        //删除限时购活动(批删)
+        public async Task<int> DelAllActivities(string ids)
+        {
+            string sql = $"delete from activity  where Id in {ids}";
+            using (MySqlConnection tion=new MySqlConnection(_connectionString))
+            {
+                return (await tion.ExecuteAsync(sql));
+            }
+        }
+
+        //编辑限时购
+        public async Task<int> EditActivities(activity model)
+        {
+            string sql = $"update activity set Number='{model.Number}',Name='{model.Name}',Uptime='{model.Uptime}',DownTime='{model.DownTime}',Count='{model.Count}' where Id={model.Id} ";
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.ExecuteAsync(sql));
+            }
+        }
+
+        //新增限时购
+        public async Task<int> AddActivity(activity model)
+        {
+            string sql = $"insert into activity(Number,Name, Uptime, DownTime,Count)  values('{model.Number}','{model.Name}', '{model.Uptime}', '{model.DownTime}','{model.Count}')";
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.ExecuteAsync(sql));
+            }
+        }
+
+
+        //显示商品
+        public async Task<List<commodityAdd>> GetShowProduct()
+        {
+            string sql = "SELECT * from commodityadd c join commodity cs on c.commodityId=cs.CommodityId";
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.QueryAsync<commodityAdd>(sql)).ToList();
+            }
+        }
+
+
+        //商品删除(单删)
+        public async  Task<int> DelProduct(int id)
+        {
+            string sql = $"delete from commodityadd  where commodityAddId={id} ";
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.ExecuteAsync(sql));
+            }
+        }
+
+        //商品删除(批删)
+        public async  Task<int> DelAllProduct(string ids)
+        {
+            string sql = $"delete from commodityadd where commodityAddId in {ids}";
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.ExecuteAsync(sql));
+            }
+        }
+
+        
+
+
+       
+
+
+        //优惠券列表
+        public async  Task<List<coupon>> GetShowcoupon(string type, string CouponName)
+        {
+            string sql = "SELECT * from coupon where 1=1 ";
+            if (!string.IsNullOrEmpty(type))
+            {
+                sql += $"and Type='{type}'";
+            }
+
+            if (!string.IsNullOrEmpty(CouponName))
+            {
+                sql += $"and CouponName='{CouponName}'";
+            }
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.QueryAsync<coupon>(sql)).ToList();
+            }
+        }
+
+        //优惠券单删
+        public async  Task<int> Delcoupon(int id)
+        {
+            string sql = $"delete from coupon  where Cid={id}";
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.ExecuteAsync(sql));
+            }
+        }
+
+
+        //优惠券批删
+        public async Task<int> DelAllcoupon(string ids)
+        {
+            string sql = $"delete from coupon where Cid in {ids}";
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.ExecuteAsync(sql));
+            }
+        }
+
+      
+        //编辑优惠券
+
+        public async Task<int> Editcoupon(coupon model)
+        {
+            string sql = $"update coupon set CouponName='{model.CouponName}',Type='{model.Type}',Facevalue='{model.Facevalue}',Privatestate={model.Privatestate},UseRange='{model.UseRange}',UsefulTime='{model.UsefulTime}',Limit={model.Limit},Remarks='{model.Remarks}' where Cid={model.Cid} ";
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.ExecuteAsync(sql));
+            }
+        }
+
+
+        //显示广告
+        public async  Task<List<landingpage>> GetShowland(string LandingPageName, string UpState)
+        {
+            string sql = "SELECT * from landingpage where 1=1 ";
+            if (!string.IsNullOrEmpty(LandingPageName))
+            {
+                sql += $"and LandingPageName='{LandingPageName}'";
+            }
+
+            if (!string.IsNullOrEmpty(UpState))
+            {
+                sql += $"and UpState='{UpState}'";
+            }
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.QueryAsync<landingpage>(sql)).ToList();
+            }
+        }
+
+        //单删广告
+        public async  Task<int> Delland(int id)
+        {
+            string sql = $"delete from landingpage  where Lid={id}";
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.ExecuteAsync(sql));
+            }
+        }
+
+        //批删广告
+        public async  Task<int> DelAllland(string ids)
+        {
+            string sql = $"delete from landingpage where Lid in {ids}";
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.ExecuteAsync(sql));
+            }
+        }
+
+        //新增优惠券
+        public async Task<int> Addcoupon(coupon model)
+        {
+            string sql = $"insert into coupon(Type, CouponName,Facevalue, UseRange,Privatestate,Limit)  values('{model.Type}', '{model.CouponName}','{model.Facevalue}' '{model.UseRange}',{model.Privatestate},{model.Limit})";
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.ExecuteAsync(sql));
+            }
+
+            
         }
         //品牌添加
         public async Task<int> BrandAddAsync(brand b)
@@ -32,11 +233,19 @@ namespace ElectricityManagementAPI.Dal
             string sql = $"insert into brand(img,Bname,Corporation,State,CreaTime) VALUES('{b.Img}','{b.Bname}','{b.Corporation}','{1}','{DateTime.Now}')";
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             int i = await tion.ExecuteAsync(sql);
-            return  i;
+            return i;
 
-
-         
         }
+        //新增广告
+        public async  Task<int> Addland(landingpage model)
+        {
+            string sql = $"insert into landingpage (LandingPageName,PageVime,Sales) values  '{model.LandingPageName}','{model.PageVime}',{model.Sales} ";
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.ExecuteAsync(sql));
+            }
+        }
+     
         //删除订单
         public async Task<int> DelAllAsync(string ids)
         {
@@ -84,9 +293,7 @@ namespace ElectricityManagementAPI.Dal
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             List<brand> list = (await tion.QueryAsync<brand>("select Brandid,Img,Bname,Corporation,State,CreaTime from brand where State = 1")).ToList();
             return (list);
-        }
-        //品牌lugo上传
-        
+        }  
         //商品
         public async Task<List<Commodity>> commoditiesAsync()
         {
@@ -695,5 +902,6 @@ namespace ElectricityManagementAPI.Dal
         }
 
         
+
     }
 }

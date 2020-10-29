@@ -1,7 +1,11 @@
 ﻿using ElectricityManagementAPI.Models;
 using System;
 using System.Collections.Generic;
+
+using System.Diagnostics;
+
 using System.Globalization;
+
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,6 +14,46 @@ namespace ElectricityManagementAPI.Dal
 {
      public interface IElectricityManagement
     {
+
+
+
+        //限时购列表显示
+        Task<List<activity>> GetShowActivities(string States,string ActionName);
+        //删除限时购列表(单删)
+        Task<int> DelActivities(int id);
+        //删除限时购列表(批删)
+        Task<int> DelAllActivities(string ids);
+
+        //编辑限时购
+        Task<int> EditActivities(activity model);
+        //设置商品显示
+        Task<List<commodityAdd>> GetShowProduct();
+        //商品删除(单删)
+        Task<int> DelProduct(int id);
+        //商品删除(批删)
+        Task<int> DelAllProduct(string ids);
+        
+        //新增限时购
+        Task<int> AddActivity(activity model);
+        //优惠券列表
+        Task<List<coupon>> GetShowcoupon(string type,string CouponName);
+        //优惠券单删
+        Task<int> Delcoupon(int id);
+        //优惠券批删
+        Task<int> DelAllcoupon(string ids);
+        //新增优惠券
+        Task<int> Addcoupon(coupon model);
+        //编辑优惠券
+        Task<int> Editcoupon(coupon model);
+        //显示广告
+        Task<List<landingpage>> GetShowland(string LandingPageName, string UpState);
+        ////单删广告
+        Task<int> Delland(int id);
+        //批删广告
+        Task<int> DelAllland(string ids);
+        //新增广告
+        Task<int> Addland(landingpage model);
+
 
 
         Task<List<brand>> BrandAsync();
@@ -143,5 +187,6 @@ namespace ElectricityManagementAPI.Dal
         Task<List<SalesModel>> GetSales();
         //详情
         Task<List<SalesModel>> DetailsSales(int id);
+
     }
 }

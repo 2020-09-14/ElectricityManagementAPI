@@ -1,23 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {}
+    "D:\\电商后台API\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {}
   },
   "projects": {
-    "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {
+    "D:\\电商后台API\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
+        "projectUniqueName": "D:\\电商后台API\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
         "projectName": "ElectricityManagementAPI",
-        "projectPath": "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
-        "packagesPath": "C:\\Users\\MECHREVO\\.nuget\\packages\\",
-        "outputPath": "E:\\大一项目\\API1\\ElectricityManagementAPI\\ElectricityManagementAPI\\obj\\",
+        "projectPath": "D:\\电商后台API\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
+        "packagesPath": "C:\\Users\\dell\\.nuget\\packages\\",
+        "outputPath": "D:\\电商后台API\\ElectricityManagementAPI\\ElectricityManagementAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\MECHREVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 18.1.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -25,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "D:\\新建文件夹\\Components\\System\\Components\\Packages": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -45,21 +47,13 @@
               "target": "Package",
               "version": "[2.0.35, )"
             },
-            "EPPlus.Core": {
-              "target": "Package",
-              "version": "[1.5.4, )"
-            },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
-              "target": "Package",
-              "version": "[3.1.9, )"
-            },
-            "Microsoft.Extensions.Configuration": {
               "target": "Package",
               "version": "[3.1.9, )"
             },
             "MySql.Data": {
               "target": "Package",
-              "version": "[8.0.21, )"
+              "version": "[8.0.22, )"
             },
             "MySqlConnector": {
               "target": "Package",
@@ -68,6 +62,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[12.0.3, )"
+            },
+            "System.Collections": {
+              "target": "Package",
+              "version": "[4.3.0, )"
             }
           },
           "imports": [

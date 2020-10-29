@@ -32,19 +32,21 @@ namespace ElectricityManagementAPI
             services.AddControllers();
 
 
+            services.AddSingleton<IElectricityManagement,ElectricityManagement>();
+
+
+
+
+
             services.AddSingleton<IElectricityManagement,ElectricityManagement > ();
+
 
 
 
 
             services.AddCors(options =>
            options.AddPolicy("cor",
-           p => p.WithOrigins("http://localhost:59906").AllowAnyOrigin().AllowAnyHeader()
-           )
-
-
-
-
+         p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin())
 
            );
 
@@ -78,7 +80,7 @@ namespace ElectricityManagementAPI
                 EnableDirectoryBrowsing = true,//开启目录访问
 
 
-                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(@"E:\大一项目\API1\ElectricityManagementAPI\ElectricityManagementAPI\Images"),
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(@"D:\电商后台API\ElectricityManagementAPI\ElectricityManagementAPI\Images"),
 
                 
  
