@@ -31,19 +31,28 @@ namespace ElectricityManagementAPI.Controller
 
         //显示地址
         [HttpGet]
+
+        [Route("/api/GetShowAsync")]
+        public async Task<IActionResult> GetShowAsync()
+        {
+            var GetAddresses = await _management.GetAddressesAsync();
+            string json = JsonConvert.SerializeObject(GetAddresses);
+            return Ok(json);
+        }
         [Route("/api/GetAddressesAsync")]
         public async Task<IActionResult> GetAddressesAsync()
         {
             var josn = await _management.GetAddressesAsync();
             var list = JsonConvert.SerializeObject(josn);
             return Ok(list);
+
         }
         //显示快递公司表
         [HttpGet]
         [Route("/api/ExperssagesAsync")]
         public async Task<IActionResult> ExperssagesAsync(string EName, string Eofficial)
         {
-            var josn = await _management.GetExperssagesAsync(EName,Eofficial);
+            var josn = await _management.GetExperssagesAsync(EName, Eofficial);
             var list = JsonConvert.SerializeObject(josn);
             return Ok(list);
         }
@@ -52,24 +61,24 @@ namespace ElectricityManagementAPI.Controller
         [Route("/api/PackagesAsync")]
         public async Task<IActionResult> PackagesAsync(string Pstate, string EName, string Podd, string Pordernumber, string Panomaly)
         {
-            var json = await _management.GetPackagesAsync(Pstate,EName,Podd,Pordernumber,Panomaly);
+            var json = await _management.GetPackagesAsync(Pstate, EName, Podd, Pordernumber, Panomaly);
             var list = JsonConvert.SerializeObject(json);
             return Ok(list);
         }
-        
+
         //详情页（快递公司）
         [HttpGet]
         [Route("/api/DetailsExperssagesAsync")]
-        public async Task<IActionResult> DetailsExperssagesAsync(int id) 
+        public async Task<IActionResult> DetailsExperssagesAsync(int id)
         {
-            var details =await  _management.DetailsExperssagesAsync(id);
+            var details = await _management.DetailsExperssagesAsync(id);
             string json = JsonConvert.SerializeObject(details);
             return Ok(json);
         }
         //修改（设为收货地址）
         [HttpPost]
         [Route("/api/UpdAddressAsync")]
-        public async Task<IActionResult> UpdAddressAsync(int id) 
+        public async Task<IActionResult> UpdAddressAsync(int id)
         {
             int i = await _management.UpdAddressAsync(id);
             return Ok(i);
@@ -77,7 +86,7 @@ namespace ElectricityManagementAPI.Controller
         //添加网点
         [HttpPost]
         [Route("/api/AddBranchAsync")]
-        public async Task<IActionResult> AddBranchAsync([FromBody]b_branch b) 
+        public async Task<IActionResult> AddBranchAsync([FromBody] b_branch b)
         {
             int list = (await _management.AddBranchAsync(b));
             return Ok(list);
@@ -85,7 +94,7 @@ namespace ElectricityManagementAPI.Controller
         //删除地址
         [HttpPost]
         [Route("/api/DelAddressAsync")]
-        public async Task<IActionResult> DelAddressAsync(int id) 
+        public async Task<IActionResult> DelAddressAsync(int id)
         {
             int list = (await _management.DelAddressesAsync(id));
             return Ok(list);
@@ -93,7 +102,7 @@ namespace ElectricityManagementAPI.Controller
         //添加地址
         [HttpPost]
         [Route("/api/AddAddressAsync")]
-        public async Task<IActionResult> AddAddressAsync([FromBody]a_address a) 
+        public async Task<IActionResult> AddAddressAsync([FromBody] a_address a)
         {
             int list = (await _management.AddAddressesAsync(a));
             return Ok(list);
@@ -101,7 +110,7 @@ namespace ElectricityManagementAPI.Controller
         //反填地址
         [HttpPost]
         [Route("/api/FandAddressAsync")]
-        public async Task<IActionResult> FandAddressAsync(int id) 
+        public async Task<IActionResult> FandAddressAsync(int id)
         {
             var details = await _management.FandAddressAsync(id);
             string json = JsonConvert.SerializeObject(details);
@@ -110,16 +119,16 @@ namespace ElectricityManagementAPI.Controller
         //更新地址 
         [HttpPost]
         [Route("/api/UptAddressAsync")]
-        public async Task<IActionResult> UptAddressAsync([FromBody]a_address a) 
+        public async Task<IActionResult> UptAddressAsync([FromBody] a_address a)
         {
-            
+
             int list = (await _management.UptAddressAsync(a));
             return Ok(list);
         }
         //详情页（包裹中心）
         [HttpPost]
         [Route("/api/DetailsPackageAsync")]
-        public async Task<IActionResult> DetailsPackageAsync(int id) 
+        public async Task<IActionResult> DetailsPackageAsync(int id)
         {
             string json = JsonConvert.SerializeObject(await _management.DetailsPackageAsync(id));
             return Ok(json);
@@ -127,10 +136,11 @@ namespace ElectricityManagementAPI.Controller
         //更新地址 
         [HttpPost]
         [Route("/api/AddPackagesAsync")]
-        public async Task<IActionResult> AddPackagesAsync([FromForm]p_package p)
+        public async Task<IActionResult> AddPackagesAsync([FromForm] p_package p)
         {
             int i = await _management.AddPackagesAsync(p);
             return Ok(i);
         }
     }
 }
+

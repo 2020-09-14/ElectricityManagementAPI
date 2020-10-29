@@ -16,6 +16,25 @@ namespace ElectricityManagementAPI.Dal
     {
 
 
+        Task<List<inquire>> GetShowAsync(); //显示文章
+        Task<List<Category>> BindingAsync();//类别绑定
+        Task<List<inquire>> ThisqueriesAsync(string Title, string Sort);//文章查询
+        Task<int> DelmethodsAsync(string SId);//文章删除
+        Task<int> AdditionAsync(Article ar);//文章添加
+        Task<int> DelLeiAsync(string DId);//删除类
+        Task<List<Category>> FenLeiAsync(string Ti, string FName);//类查询
+        Task<List<Search>> ReviewAsync(string Lei);//评论查询
+        Task<int> DelLunAsync(string MId);//文章评论删除
+        Task<int> LeiAddAsync(Category ca);//类型添加
+        Task<List<SalesExchangeModel>> TuiShowAsync();//退换货原因
+        Task<int> DELReturnAsync(string SId);//退货原因删除
+        Task<int> ADDReturnAsync(SalesExchangeModel sa);//退货添加
+        Task<int> LoginAsync(UserInfo de);//注册账号
+        Task<int> RegisterAsync(string DName, string DMi);//登录
+
+
+
+
 
         //限时购列表显示
         Task<List<activity>> GetShowActivities(string States,string ActionName);
@@ -60,7 +79,7 @@ namespace ElectricityManagementAPI.Dal
         Task<List<Commodity>> commoditiesAsync();//显示商品
         Task<List<Commodity>> commodeleteAsync();//回收站的商品
         Task<int> CommDelete(string ids);//删除回收站的商品
-        Task< List<inquire>> GetShowAsync();
+       
         Task<int> BrandAddAsync(brand b);
         Task<List<Classify>> Classifies();
         Task<List<Classify>> GetClassifies(int ids);
@@ -77,6 +96,7 @@ namespace ElectricityManagementAPI.Dal
 
         //分类显示
         Task<List<Classify>> ClassShow();
+
         //获取订单信息
         int Huan(string ids);
         Task<List<OrderModel>> GetOrdersAsync(int? states);
@@ -88,6 +108,9 @@ namespace ElectricityManagementAPI.Dal
         Task<List<WayBillModel>> GetWayBills();
         //订单取消
         Task<List<OrdeCancelModel>> GetOrdeCancels();
+
+      
+
         //修改后添加
         Task<int> UptAdd(OrdeCancelModel c);
         //批删取消原因
@@ -183,10 +206,12 @@ namespace ElectricityManagementAPI.Dal
         Specification SpFt(string ids);//反填规格
         //批量发货
         Task<int> GetVAsync(string WayBiilNumber, string WayBillOrderId, string WayBillExpress);
+
         //退货列表
         Task<List<SalesModel>> GetSales();
         //详情
         Task<List<SalesModel>> DetailsSales(int id);
+
 
     }
 }

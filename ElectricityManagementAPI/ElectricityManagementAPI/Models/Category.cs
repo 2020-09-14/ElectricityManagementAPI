@@ -7,7 +7,10 @@ namespace ElectricityManagementAPI.Models
 {
     public class Category
     {
-        //文章分类
+        
+        /// <summary>
+        /// 文章分类
+        /// </summary>
 
         public int CID { get; set; }//主键自增
 

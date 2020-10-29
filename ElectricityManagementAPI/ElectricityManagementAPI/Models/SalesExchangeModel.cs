@@ -9,7 +9,9 @@ namespace ElectricityManagementAPI.Models
     {
         //退换货原因
         public int SalesExchangeId { get; set; }
+
         public string SalesExchangeCause { get; set; }
-        public string SalesExchangeInfo { get; set; }
+
+        public string SalesExchangInfo { get; set; }
     }
 }

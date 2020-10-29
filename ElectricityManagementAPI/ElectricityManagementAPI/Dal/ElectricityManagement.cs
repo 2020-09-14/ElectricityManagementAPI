@@ -2,11 +2,13 @@
 using ElectricityManagementAPI.Models;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Server.IIS.Core;
+using ElectricityManagementAPI.Helper;
 
 namespace ElectricityManagementAPI.Dal
 {
@@ -17,7 +19,10 @@ namespace ElectricityManagementAPI.Dal
         public ElectricityManagement(IConfiguration configuration)
         {
 
-            _connectionString = configuration.GetConnectionString("LiuKang");
+            _connectionString = configuration.GetConnectionString("MySqllinking");
+
+
+            //_connectionString = configuration.GetConnectionString("LiuKang");
         }
 
       
@@ -42,6 +47,7 @@ namespace ElectricityManagementAPI.Dal
 
             }
                
+
         }
 
 
@@ -318,6 +324,8 @@ namespace ElectricityManagementAPI.Dal
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             return (await tion.QueryAsync<Classify>($"select * from Classify WHERE Cidd = {ids}")).ToList();
         }
+
+
         //显示文章
         public async Task<List<inquire>> GetShowAsync()
         {
@@ -408,6 +416,123 @@ namespace ElectricityManagementAPI.Dal
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             return tion.Execute($"UPDATE commodity set delstate= 1 WHERE CommodityId = '{ids}'");
         }
+        //绑定类别
+        public async Task<List<Category>> BindingAsync()
+        {
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.QueryAsync<Category>("SELECT * FROM Category")).ToList();
+        }
+
+        //文章查询
+        public async Task<List<inquire>> ThisqueriesAsync(string Title,string Sort)
+        {
+            string sql = $"SELECT * from Article a join Category c on a.CategoryId=c.CID WHERE c.CState=1  ";
+
+            if (!string.IsNullOrEmpty(Title))
+            {
+                sql += $"and Title LIKE '%{Title}%'";
+            }
+
+            if (!string.IsNullOrEmpty(Sort))
+            {
+                sql += $"and  CName='{Sort}'";
+            }
+
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.QueryAsync<inquire>(sql)).ToList();
+        }
+
+        //删除文章
+        public async Task<int> DelmethodsAsync(string SId)
+        {
+            string sql = $"DELETE from Article where AId in ({SId})";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.ExecuteAsync(sql));
+        }
+
+        //添加文章
+        public async Task<int> AdditionAsync(Article ar)
+        {
+            string sql= $"INSERT INTO article(Title,CategoryId,Details) VALUES('{ar.Title}','{ar.CategoryId}','{ar.Details}')";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.ExecuteAsync(sql));
+        }
+
+        //删除类
+        public async Task<int> DelLeiAsync(string DId)
+        {
+            string sql = $"DELETE from Category where AId in ({DId})";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.ExecuteAsync(sql));
+        }
+
+        //分类查询
+        public async Task<List<Category>> FenLeiAsync(string Ti,string FName)
+        {
+
+            string sql = $"SELECT * FROM Category where 1=1  ";
+
+            if (!string.IsNullOrEmpty(Ti))
+            {
+                sql += $"and  CState in ({Ti})";
+            }
+
+            if (!string.IsNullOrEmpty(FName))
+            {
+                sql += $"and CName LIKE '%{FName}%'";
+            }
+
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.QueryAsync<Category>(sql)).ToList();
+        }
+
+        //文章评论表
+        public async Task<List<Search>> ReviewAsync(string Lei)
+        {
+            string sql = $"SELECT * from comment c join userinfo u on c.Yhu=u.Uid ";
+            if (!string.IsNullOrEmpty(Lei))
+            {
+                sql += $"and State in ({Lei})";
+            }
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.QueryAsync<Search>(sql)).ToList();
+        }
+
+        //文章评论删除
+        public async Task<int> DelLunAsync(string MId)
+        {
+            string sql = $"DELETE from Comment where MId in ({MId})";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.ExecuteAsync(sql));
+        }
+
+        //类型添加
+        public async Task<int> LeiAddAsync(Category ca)
+        {
+            string sql = $"insert INTO Category(CName,Cnumber,CState) VALUES('{ca.CName}','{ca.Cnumber}',{ca.CState})";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.ExecuteAsync(sql));
+        }
+
+        //注册
+        public async Task<int> LoginAsync(UserInfo de)
+        {
+            string Mi = Md5Helper.ToMd5(de.Password);
+            string sql = $"INSERT INTO userinfo(UserName,Password,Phone) VALUES('{de.UserName}','{Mi}','{de.Phone}')";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.ExecuteAsync(sql));
+        }
+
+        //登录
+        public async Task<int> RegisterAsync(string DName,string DMi)
+        {
+            string Mi = Md5Helper.ToMd5(DMi);
+            string sql = $"SELECT count(1) FROM userinfo WHERE UserName='{DName}' AND Password='{Mi}'";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return Convert.ToInt32((await tion.ExecuteScalarAsync(sql)));
+        }
+
+
         //添加地址
         public async Task<int> AddAddressAsync(a_address a)
         { 
@@ -695,6 +820,32 @@ namespace ElectricityManagementAPI.Dal
         }
 
 
+        //退换货原因
+        public async Task<List<SalesExchangeModel>> TuiShowAsync()
+        {
+            string sql = $"SELECT * from SalesExchange ORDER BY SalesExchangeId DESC";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.QueryAsync<SalesExchangeModel>(sql)).ToList();
+        }
+        
+        //退货原因删除
+        public async Task<int> DELReturnAsync(string SId)
+        {
+            string sql = $"DELETE from salesexchange where SalesExchangeId in ({SId})";
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.ExecuteAsync(sql));
+        }
+
+        //退货添加
+        public async Task<int> ADDReturnAsync(SalesExchangeModel sa)
+        {
+            string sql = $"INSERT INTO salesexchange(SalesExchangeCause, SalesExchangInfo) VALUES('{sa.SalesExchangeCause}','{sa.SalesExchangInfo}')";
+
+            using MySqlConnection tion = new MySqlConnection(_connectionString);
+            return (await tion.ExecuteAsync(sql));
+        }
+
+
         //显示角色信息
         public async Task<List<Roles>> ShowRolesAsync(string RName, string RCreator)
         {
@@ -901,7 +1052,7 @@ namespace ElectricityManagementAPI.Dal
             }
         }
 
-        
+
 
     }
 }

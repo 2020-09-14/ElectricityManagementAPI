@@ -5,9 +5,16 @@ using System.Threading.Tasks;
 
 namespace ElectricityManagementAPI.Models
 {
-    public class Comment
+    public class Search
     {
+        //文章评论
 
+        //用户表
+
+        public int Uid { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Phone { get; set; }
 
         /// <summary>
         /// 评论表
@@ -24,6 +31,5 @@ namespace ElectricityManagementAPI.Models
         public DateTime Contime { get; set; }//评论时间
 
         public bool State { get; set; }//用户状态
-
     }
 }

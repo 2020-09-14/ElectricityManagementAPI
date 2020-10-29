@@ -19,6 +19,10 @@ namespace ElectricityManagementAPI.Models
         public string Panomaly { get; set; }//异常状态
         public string Panomalytime { get; set; }//异常时长
         public bool PapprovalStatus { get; set; }//审批状态
+
+        public string Pdispose { get; set; }//处理状态
+
+
         public bool Pstatus { get; set; }//
 
         public string Pdescribe { get; set; }//问题描述
@@ -26,5 +30,6 @@ namespace ElectricityManagementAPI.Models
         public string EName { get; set; }//快递公司
 
         public string OrderNumber { get; set; }//快递单号
+
     }
 }

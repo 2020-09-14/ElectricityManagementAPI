@@ -1,24 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\电商后台API\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {}
+    "C:\\Users\\HP\\Desktop\\新建文件夹\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {}
   },
   "projects": {
-    "D:\\电商后台API\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {
+    "C:\\Users\\HP\\Desktop\\新建文件夹\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\电商后台API\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
+        "projectUniqueName": "C:\\Users\\HP\\Desktop\\新建文件夹\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
         "projectName": "ElectricityManagementAPI",
-        "projectPath": "D:\\电商后台API\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
-        "packagesPath": "C:\\Users\\dell\\.nuget\\packages\\",
-        "outputPath": "D:\\电商后台API\\ElectricityManagementAPI\\ElectricityManagementAPI\\obj\\",
+        "projectPath": "C:\\Users\\HP\\Desktop\\新建文件夹\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\HP\\Desktop\\新建文件夹\\ElectricityManagementAPI\\ElectricityManagementAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 18.1.config",
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +25,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "D:\\新建文件夹\\Components\\System\\Components\\Packages": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

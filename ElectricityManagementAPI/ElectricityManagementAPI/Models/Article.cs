@@ -7,7 +7,10 @@ namespace ElectricityManagementAPI.Models
 {
     public class Article
     {
-        //文章表
+
+        /// <summary>
+        /// 文章表
+        /// </summary>
 
         public int AID { get; set; } //主键自增
 
@@ -26,6 +29,8 @@ namespace ElectricityManagementAPI.Models
         public int Rank { get; set; }//排序
 
         public string Cover { get; set; }//封面图
+
+        public string Details { get; set; }//文章详情
 
     }
 }
