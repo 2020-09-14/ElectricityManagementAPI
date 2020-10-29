@@ -8,7 +8,7 @@ namespace ElectricityManagementAPI.Models
     public class Tissue
     {
         //组织表
-        public int Id { get; set; }
+        public int TId { get; set; }
         public string TName { get; set; }//组织名称
         public string TLinkman { get; set; }//联系人
         public string TPhone { get; set; }//手机号

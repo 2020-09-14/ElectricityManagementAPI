@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using ElectricityManagementAPI;
 using ElectricityManagementAPI.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Components;
 using ElectricityManagementAPI.Helper;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using OfficeOpenXml;
 using Microsoft.AspNetCore.Mvc;
@@ -22,10 +24,7 @@ namespace ElectricityManagementAPI.Dal
         //大傻春
         public ElectricityManagement(IConfiguration configuration)
         {
-
-            _connectionString = configuration.GetConnectionString("Shenwenjie");
-            
-          
+            _connectionString = configuration.GetConnectionString("GuoKunLong");
         }
         //品牌添加
         public async Task<int> BrandAddAsync(brand b)
@@ -487,6 +486,195 @@ namespace ElectricityManagementAPI.Dal
                 return await conn.ExecuteAsync(sql);
             }
         }
+
+
+        //显示角色信息
+        public async Task<List<Roles>> ShowRolesAsync(string RName, string RCreator)
+        {
+            string sql = $"SELECT RId, RName, RCreator, ROrganization, RState, DName FROM roles r  JOIN depantment d ON r.ROrganization = d.DId where 1=1";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                if (!string.IsNullOrEmpty(RName))
+                {
+                    sql += $" and RName like '%{RName}%'";
+                }
+                if (!string.IsNullOrEmpty(RCreator))
+                {
+                    sql += $" and RCreator like '%{RCreator}%'";
+                }
+                return (await conn.QueryAsync<Roles>(sql)).ToList();
+            }
+        }
+        //显示功能信息
+        public async Task<List<Function>> ShowFunctionAsync(string FName, string FCoding)
+        {
+            string sql = "SELECT * FROM  Function where 1=1";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                if (!string.IsNullOrEmpty(FName))
+                {
+                    sql += $" and FName like '%{FName}%'";
+                }
+                if (!string.IsNullOrEmpty(FCoding))
+                {
+                    sql += $" and FCoding like '%{FCoding}%'";
+                }
+                return (await conn.QueryAsync<Function>(sql)).ToList();
+            }
+        }
+        //显示组织信息
+        public async Task<List<Tissue>> ShowTissueAsync(string TLinkman, string TName)
+        {
+            string sql = "SELECT * FROM Tissue where 1=1";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                if (!string.IsNullOrEmpty(TName))
+                {
+                    sql += $" and TName like '%{TName}%'";
+                }
+                if (!string.IsNullOrEmpty(TLinkman))
+                {
+                    sql += $" and TLinkman like '%{TLinkman}%'";
+                }
+                return (await conn.QueryAsync<Tissue>(sql)).ToList();
+            }
+        }
+        //删除角色信息
+        public async Task<int> DelRolesAsync(string ids)
+        {
+            string sql = $"DELETE FROM roles where RId in ('{ids}')";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                int i = (await conn.ExecuteAsync(sql));
+                return i;
+            }
+        }
+        //编辑角色信息
+        public async Task<int> UptRolesAsync(Roles r)
+        {
+            string sql = $"UPDATE roles SET RName='{r.RName}',Creator='{r.RCreator}',ROrganization='{r.ROrganization}',RState={r.RState} where RId={r.RId}";
+            using (MySqlConnection  conn=new MySqlConnection(_connectionString))
+            {
+                int i = (await conn.ExecuteAsync(sql));
+                return i;
+            }
+        }
+        //添加角色信息
+        public async Task<int> AddRolesAsync(Roles r)
+        {
+            string sql = $"INSERT INTO roles(RName,RCoding,RCreator,ROrganization,RDescribe) VALUES('{r.RName}','{r.RCoding}','{r.RCreator}',{r.ROrganization},'{r.RDescribe}')";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                int i = (await conn.ExecuteAsync(sql));
+                return i;
+            }
+        }
+        //绑定下拉显示部门
+        public async Task<List<Department>> BindDepartmentAsync()
+        {
+            string sql = $"SELECT * FROM depantment";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString)) 
+            {
+                return (await conn.QueryAsync<Department>(sql)).ToList();
+            }
+        }
+        //添加组织信息
+        public async Task<int> AddTissueAsync(Tissue t)
+        {
+            string sql = $"INSERT INTO tissue(TName,TLinkman,TPhone) VALUES('{t.TName}','{t.TLinkman}','{t.TPhone}')";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                int i = (await conn.ExecuteAsync(sql));
+                return i;
+            }
+        }
+        //添加功能信息
+        public async Task<int> AddFunctionAsync(Function f)
+        {
+            string sql = $"INSERT INTO function(FName,FCoding) VALUES('{f.FName}','{f.FCoding}')";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                int i = (await conn.ExecuteAsync(sql));
+                return i;
+            }
+        }
+        //删除功能信息
+        public async Task<int> DelFunctionAsync(string ids)
+        {
+            string sql = $"DELETE FROM `function` where FId in ('{ids}')";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                int i = (await conn.ExecuteAsync(sql));
+                return i;
+            }
+        }
+        //修改功能信息
+        public async Task<int> UptFunctionAsync(Function f)
+        {
+            string sql = $"UPDATE `function` SET FName='1',FCoding='1',FState=1 where FId=0";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                int i = (await conn.ExecuteAsync(sql));
+                return i;
+            }
+        }
+        //删除组织信息
+        public async Task<int> DelTissueAsync(string ids)
+        {
+            string sql = $"DELETE FROM tissue where TId in ('{ids}')";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                int i = (await conn.ExecuteAsync(sql));
+                return i;
+            }
+        }
+        //修改组织信息
+        public async Task<int> UptTissueAsync(Tissue t)
+        {
+            string sql = $"UPDATE tissue SET TName='{t.TName}',TLinkman='{t.TLinkman}',TPhone='{t.TPhone}',TState='{t.TState}' where TId='{t.TId}'";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                int i = (await conn.ExecuteAsync(_connectionString));
+                return i;
+            }
+        }
+        //反填组织信息
+        public async Task<List<Tissue>> FanTissueAsync(int ids)
+        {
+            string sql = $"SELECT * FROM tissue where TId={ids}";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                return (await conn.QueryAsync<Tissue>(sql)).ToList();
+            }
+        }
+        //详情页（包裹中心）
+        public async Task<List<p_package>> DetailspackageAsync(int id)
+        {
+            string sql = $"select * from p_package  p   join e_experssage e ON p.Eid=e.Eid join `order` o on p.Pordernumber=o.OrderId where p.Pid={id}";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                return (await conn.QueryAsync<p_package>(sql)).ToList();
+            }
+        }
+        //反填角色信息
+        public async Task<List<Roles>> FanRolesAsync(int ids)
+        {
+            string sql = $"SELECT * FROM Roles where RId={ids}";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                return (await conn.QueryAsync<Roles>(sql)).ToList();
+            }
+        }
+        //反填功能信息
+        public async Task<List<Function>> FanFunctionAsync(int ids)
+        {
+            string sql = $"SELECT * FROM function where FId={ids}";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                return (await conn.QueryAsync<Function>(sql)).ToList();
+            }
+        }
+
         //退货显示
         public async Task<List<SalesModel>> GetSales()
         {
@@ -506,6 +694,6 @@ namespace ElectricityManagementAPI.Dal
             }
         }
 
-
+        
     }
 }

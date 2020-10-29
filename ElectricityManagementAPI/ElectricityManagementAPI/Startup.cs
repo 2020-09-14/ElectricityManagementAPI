@@ -39,8 +39,10 @@ namespace ElectricityManagementAPI
 
             services.AddCors(options =>
            options.AddPolicy("cor",
+           p => p.WithOrigins("http://localhost:59906").AllowAnyOrigin().AllowAnyHeader()
+           )
 
-           p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin())
+
 
 
 
@@ -75,7 +77,15 @@ namespace ElectricityManagementAPI
             {
                 EnableDirectoryBrowsing = true,//开启目录访问
 
-                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(@"C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\Images\"),
+
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(@"E:\大一项目\API1\ElectricityManagementAPI\ElectricityManagementAPI\Images"),
+
+                
+ 
+
+
+                //FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(@"C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\Images\"),
+
                 RequestPath = new PathString("/Images")
             });
 
