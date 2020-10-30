@@ -1,5 +1,4 @@
 ﻿using Dapper;
-
 using ElectricityManagementAPI;
 using ElectricityManagementAPI.Models;
 using Microsoft.AspNetCore.Components;
@@ -12,7 +11,6 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using OfficeOpenXml;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElectricityManagementAPI.Dal
@@ -23,10 +21,7 @@ namespace ElectricityManagementAPI.Dal
         //大傻春
         public ElectricityManagement(IConfiguration configuration)
         {
-
             _connectionString = configuration.GetConnectionString("Shenwenjie");
-            
-          
         }
         //品牌添加
         public async Task<int> BrandAddAsync(brand b)
@@ -86,9 +81,7 @@ namespace ElectricityManagementAPI.Dal
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             List<brand> list = (await tion.QueryAsync<brand>("select Brandid,Img,Bname,Corporation,State,CreaTime from brand where State = 1")).ToList();
             return (list);
-        }
-        //品牌lugo上传
-        
+        }  
         //商品
         public async Task<List<Commodity>> commoditiesAsync()
         {
@@ -128,11 +121,11 @@ namespace ElectricityManagementAPI.Dal
             {
                 if (!string.IsNullOrEmpty(EName))
                 {
-                    sql += $" and EName='{EName}'";
+                    sql += $" and Ephone='{EName}'";
                 }
                 if (!string.IsNullOrEmpty(Eofficial))
                 {
-                    sql += $" and Eofficial='{Eofficial}'";
+                    sql += $" and EName='{Eofficial}'";
                 }
                 return (await conn.QueryAsync<e_experssage>(sql)).ToList();
             }
