@@ -1,14 +1,19 @@
 ﻿using Dapper;
+
+using ElectricityManagementAPI;
 using ElectricityManagementAPI.Models;
+using Microsoft.AspNetCore.Components;
+using ElectricityManagementAPI.Helper;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
-
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Server.IIS.Core;
-using ElectricityManagementAPI.Helper;
+using OfficeOpenXml;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ElectricityManagementAPI.Dal
 {
@@ -18,239 +23,10 @@ namespace ElectricityManagementAPI.Dal
         //大傻春
         public ElectricityManagement(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
-        }
-        //动态退换货原因
-        public async Task<List<SalesExchangeModel>> GetSalesExchangesAsync()
-        {
-            string sql = "select * from salesexchange";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
-            {
-                return (await conn.QueryAsync<SalesExchangeModel>(sql)).ToList();
-            }
-       
 
-
-            //_connectionString = configuration.GetConnectionString("LiuKang");
-        }
-
-      
-
-
-        //限时购列表显示
-        public async Task<List<activity>> GetShowActivities(string States,  string ActionName)
-        {
+            _connectionString = configuration.GetConnectionString("Shenwenjie");
             
-            string sql = $"select * from activity where 1=1 ";
-            if (!string.IsNullOrEmpty(States))
-            {
-                sql += $" and State='{States}'";
-            }
-            if (!string.IsNullOrEmpty(ActionName))
-            {
-                sql += $" and Name='{ActionName}'";
-            }
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.QueryAsync<activity>(sql)).ToList();
-
-            }
-               
-
-        }
-
-
-        //删除限时购活动(单删)
-        public async Task<int> DelActivities(int id)
-        {
-            string sql = $"delete from activity where Id={id}";
-            using (MySqlConnection tion=new MySqlConnection(_connectionString))
-            {
-                return (await tion.ExecuteAsync(sql));
-             
-            }
-        }
-
-        //删除限时购活动(批删)
-        public async Task<int> DelAllActivities(string ids)
-        {
-            string sql = $"delete from activity  where Id in {ids}";
-            using (MySqlConnection tion=new MySqlConnection(_connectionString))
-            {
-                return (await tion.ExecuteAsync(sql));
-            }
-        }
-        //编辑限时购
-        public async Task<int> EditActivities(activity model)
-        {
-            string sql = $"update activity set Number='{model.Number}',Name='{model.Name}',Uptime='{model.Uptime}',DownTime='{model.DownTime}',Count='{model.Count}' where Id={model.Id} ";
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.ExecuteAsync(sql));
-            }
-        }
-
-        //反填限时购
-        public async Task<List<activity>> FantianActivities(int ids)
-        {
-            string sql = $"select * from  activity where Id ='{ids}'";
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.QueryAsync<activity>(sql)).ToList();
-            }
-        }
-
-        //新增限时购
-        public async Task<int> AddActivity(activity model)
-        {
-            string sql = $"insert into activity(Number,Name, Uptime, DownTime,Count)  values('{model.Number}','{model.Name}', '{model.Uptime}', '{model.DownTime}','{model.Count}')";
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.ExecuteAsync(sql));
-            }
-        }
-
-
-        //显示商品
-        public async Task<List<commodityAdd>> GetShowProduct()
-        {
-            string sql = "SELECT * from commodityadd c join commodity cs on c.commodityId=cs.CommodityId";
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.QueryAsync<commodityAdd>(sql)).ToList();
-            }
-        }
-
-
-        //商品删除(单删)
-        public async  Task<int> DelProduct(int id)
-        {
-            string sql = $"delete from commodityadd  where commodityAddId={id} ";
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.ExecuteAsync(sql));
-            }
-        }
-
-        //商品删除(批删)
-        public async  Task<int> DelAllProduct(string ids)
-        {
-            string sql = $"delete from commodityadd where commodityAddId in {ids}";
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.ExecuteAsync(sql));
-            }
-        }
-
-        
-
-
-       
-
-
-        //优惠券列表
-        public async  Task<List<coupon>> GetShowcoupon(string type, string CouponName)
-        {
-            string sql = "SELECT * from coupon where 1=1 ";
-            if (!string.IsNullOrEmpty(type))
-            {
-                sql += $"and Type='{type}'";
-            }
-
-            if (!string.IsNullOrEmpty(CouponName))
-            {
-                sql += $"and CouponName='{CouponName}'";
-            }
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.QueryAsync<coupon>(sql)).ToList();
-            }
-        }
-
-        //优惠券单删
-        public async  Task<int> Delcoupon(int id)
-        {
-            string sql = $"delete from coupon  where Cid={id}";
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.ExecuteAsync(sql));
-            }
-        }
-
-
-        //优惠券批删
-        public async Task<int> DelAllcoupon(string ids)
-        {
-            string sql = $"delete from coupon where Cid in {ids}";
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.ExecuteAsync(sql));
-            }
-        }
-
-      
-        //编辑优惠券
-
-        public async Task<int> Editcoupon(coupon model)
-        {
-            string sql = $"update coupon set CouponName='{model.CouponName}',Type='{model.Type}',Facevalue='{model.Facevalue}',Privatestate={model.Privatestate},UseRange='{model.UseRange}',UsefulTime='{model.UsefulTime}',Limit={model.Limit},Remarks='{model.Remarks}' where Cid={model.Cid} ";
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.ExecuteAsync(sql));
-            }
-        }
-
-
-        //显示广告
-        public async  Task<List<landingpage>> GetShowland(string LandingPageName, string UpState)
-        {
-            string sql = "SELECT * from landingpage where 1=1 ";
-            if (!string.IsNullOrEmpty(LandingPageName))
-            {
-                sql += $"and LandingPageName='{LandingPageName}'";
-            }
-
-            if (!string.IsNullOrEmpty(UpState))
-            {
-                sql += $"and UpState='{UpState}'";
-            }
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.QueryAsync<landingpage>(sql)).ToList();
-            }
-        }
-
-        //单删广告
-        public async  Task<int> Delland(int id)
-        {
-            string sql = $"delete from landingpage  where Lid={id}";
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.ExecuteAsync(sql));
-            }
-        }
-
-        //批删广告
-        public async  Task<int> DelAllland(string ids)
-        {
-            string sql = $"delete from landingpage where Lid in {ids}";
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.ExecuteAsync(sql));
-            }
-        }
-
-        //新增优惠券
-        public async Task<int> Addcoupon(coupon model)
-        {
-            string sql = $"insert into coupon(Type, CouponName,Facevalue, UseRange,Privatestate,Limit)  values('{model.Type}', '{model.CouponName}','{model.Facevalue}' '{model.UseRange}',{model.Privatestate},{model.Limit})";
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.ExecuteAsync(sql));
-            }
-
-            
-
+          
         }
         //品牌添加
         public async Task<int> BrandAddAsync(brand b)
@@ -258,33 +34,16 @@ namespace ElectricityManagementAPI.Dal
             string sql = $"insert into brand(img,Bname,Corporation,State,CreaTime) VALUES('{b.Img}','{b.Bname}','{b.Corporation}','{1}','{DateTime.Now}')";
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             int i = await tion.ExecuteAsync(sql);
-            return i;
+            return  i;
 
+
+         
         }
-        //新增广告
-        public async  Task<int> Addland(landingpage model)
-        {
-            string sql = $"insert into landingpage (LandingPageName,PageVime,Sales) values  '{model.LandingPageName}','{model.PageVime}',{model.Sales} ";
-            using (MySqlConnection tion = new MySqlConnection(_connectionString))
-            {
-                return (await tion.ExecuteAsync(sql));
-            }
-        }
-     
         //删除订单
         public async Task<int> DelAllAsync(string ids)
         {
             string sql = $"delete from  `order` where OrderId in ({ids})";
             using (MySqlConnection conn=new MySqlConnection(_connectionString))
-            {
-                return await conn.ExecuteAsync(sql);
-            }
-        }
-        //删除退货单
-        public async Task<int> SalesDelAllAsync(string ids)
-        {
-            string sql = $"delete from  sales where SalesId in ({ids})";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
                 return await conn.ExecuteAsync(sql);
             }
@@ -327,7 +86,9 @@ namespace ElectricityManagementAPI.Dal
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             List<brand> list = (await tion.QueryAsync<brand>("select Brandid,Img,Bname,Corporation,State,CreaTime from brand where State = 1")).ToList();
             return (list);
-        }  
+        }
+        //品牌lugo上传
+        
         //商品
         public async Task<List<Commodity>> commoditiesAsync()
         {
@@ -352,8 +113,6 @@ namespace ElectricityManagementAPI.Dal
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             return (await tion.QueryAsync<Classify>($"select * from Classify WHERE Cidd = {ids}")).ToList();
         }
-
-
         //显示文章
         public async Task<List<inquire>> GetShowAsync()
         {
@@ -362,18 +121,18 @@ namespace ElectricityManagementAPI.Dal
 
         }
         // 显示快递公司表
-        public async Task<List<e_experssage>> GetExperssagesAsync(string EName, string Ephone)
+        public async Task<List<e_experssage>> GetExperssagesAsync(string EName, string Eofficial)
         {
             string sql = $"SELECT * from e_experssage where 1=1";
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
                 if (!string.IsNullOrEmpty(EName))
                 {
-                    sql += $" and Ephone='{EName}'";
+                    sql += $" and EName='{EName}'";
                 }
-                if (!string.IsNullOrEmpty(Ephone))
+                if (!string.IsNullOrEmpty(Eofficial))
                 {
-                    sql += $" and EName='{Ephone}'";
+                    sql += $" and Eofficial='{Eofficial}'";
                 }
                 return (await conn.QueryAsync<e_experssage>(sql)).ToList();
             }
@@ -444,123 +203,6 @@ namespace ElectricityManagementAPI.Dal
             using MySqlConnection tion = new MySqlConnection(_connectionString);
             return tion.Execute($"UPDATE commodity set delstate= 1 WHERE CommodityId = '{ids}'");
         }
-        //绑定类别
-        public async Task<List<Category>> BindingAsync()
-        {
-            using MySqlConnection tion = new MySqlConnection(_connectionString);
-            return (await tion.QueryAsync<Category>("SELECT * FROM Category")).ToList();
-        }
-
-        //文章查询
-        public async Task<List<inquire>> ThisqueriesAsync(string Title,string Sort)
-        {
-            string sql = $"SELECT * from Article a join Category c on a.CategoryId=c.CID WHERE c.CState=1  ";
-
-            if (!string.IsNullOrEmpty(Title))
-            {
-                sql += $"and Title LIKE '%{Title}%'";
-            }
-
-            if (!string.IsNullOrEmpty(Sort))
-            {
-                sql += $"and  CName='{Sort}'";
-            }
-
-            using MySqlConnection tion = new MySqlConnection(_connectionString);
-            return (await tion.QueryAsync<inquire>(sql)).ToList();
-        }
-
-        //删除文章
-        public async Task<int> DelmethodsAsync(string SId)
-        {
-            string sql = $"DELETE from Article where AId in ({SId})";
-            using MySqlConnection tion = new MySqlConnection(_connectionString);
-            return (await tion.ExecuteAsync(sql));
-        }
-
-        //添加文章
-        public async Task<int> AdditionAsync(Article ar)
-        {
-            string sql= $"INSERT INTO article(Title,CategoryId,Details) VALUES('{ar.Title}','{ar.CategoryId}','{ar.Details}')";
-            using MySqlConnection tion = new MySqlConnection(_connectionString);
-            return (await tion.ExecuteAsync(sql));
-        }
-
-        //删除类
-        public async Task<int> DelLeiAsync(string DId)
-        {
-            string sql = $"DELETE from Category where AId in ({DId})";
-            using MySqlConnection tion = new MySqlConnection(_connectionString);
-            return (await tion.ExecuteAsync(sql));
-        }
-
-        //分类查询
-        public async Task<List<Category>> FenLeiAsync(string Ti,string FName)
-        {
-
-            string sql = $"SELECT * FROM Category where 1=1  ";
-
-            if (!string.IsNullOrEmpty(Ti))
-            {
-                sql += $"and  CState in ({Ti})";
-            }
-
-            if (!string.IsNullOrEmpty(FName))
-            {
-                sql += $"and CName LIKE '%{FName}%'";
-            }
-
-            using MySqlConnection tion = new MySqlConnection(_connectionString);
-            return (await tion.QueryAsync<Category>(sql)).ToList();
-        }
-
-        //文章评论表
-        public async Task<List<Search>> ReviewAsync(string Lei)
-        {
-            string sql = $"SELECT * from comment c join userinfo u on c.Yhu=u.Uid ";
-            if (!string.IsNullOrEmpty(Lei))
-            {
-                sql += $"and State in ({Lei})";
-            }
-            using MySqlConnection tion = new MySqlConnection(_connectionString);
-            return (await tion.QueryAsync<Search>(sql)).ToList();
-        }
-
-        //文章评论删除
-        public async Task<int> DelLunAsync(string MId)
-        {
-            string sql = $"DELETE from Comment where MId in ({MId})";
-            using MySqlConnection tion = new MySqlConnection(_connectionString);
-            return (await tion.ExecuteAsync(sql));
-        }
-
-        //类型添加
-        public async Task<int> LeiAddAsync(Category ca)
-        {
-            string sql = $"insert INTO Category(CName,Cnumber,CState) VALUES('{ca.CName}','{ca.Cnumber}',{ca.CState})";
-            using MySqlConnection tion = new MySqlConnection(_connectionString);
-            return (await tion.ExecuteAsync(sql));
-        }
-
-        //注册
-        public async Task<int> LoginAsync(UserInfo de)
-        {
-            string Mi = Md5Helper.ToMd5(de.Password);
-            string sql = $"INSERT INTO userinfo(UserName,Password,Phone) VALUES('{de.UserName}','{Mi}','{de.Phone}')";
-            using MySqlConnection tion = new MySqlConnection(_connectionString);
-            return (await tion.ExecuteAsync(sql));
-        }
-
-        //登录
-        public async Task<int> RegisterAsync(string DName,string DMi)
-        {
-            string Mi = Md5Helper.ToMd5(DMi);
-            string sql = $"SELECT count(1) FROM userinfo WHERE UserName='{DName}' AND Password='{Mi}'";
-            using MySqlConnection tion = new MySqlConnection(_connectionString);
-            return Convert.ToInt32((await tion.ExecuteScalarAsync(sql)));
-        }
-
-
         //添加地址
         public async Task<int> AddAddressAsync(a_address a)
         { 
@@ -582,31 +224,12 @@ namespace ElectricityManagementAPI.Dal
             }
         }
         //显示包裹中心
-        public async Task<List<p_package>> GetPackagesAsync(string Pstate, string EName, string Podd, string Pordernumber, string Panomaly)
+        public async Task<List<p_package>> GetPackagesAsync(string Pstate, string EName, string Podd, string Pordernumber,string Panomaly)
         {
             string sql = $"select * from p_package  p   join e_experssage e ON p.Eid=e.Eid join `order` o on p.Pordernumber=o.OrderId  where  1=1";
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
-                if (!string.IsNullOrEmpty(Pstate))
-                {
-                    sql += $" and Pstate='{Pstate}'";
-                }
-                if (!string.IsNullOrEmpty(EName))
-                {
-                    sql += $" and EName='{EName}'";
-                }
-                if (!string.IsNullOrEmpty(Podd))
-                {
-                    sql += $" and Podd='{Podd}'";
-                }
-                if (!string.IsNullOrEmpty(Pordernumber))
-                {
-                    sql += $" and OrderNumber='{Pordernumber}'";
-                }
-                if (!string.IsNullOrEmpty(Panomaly))
-                {
-                    sql += $" and Panomaly='{Panomaly}'";
-                }
+               
                 return (await conn.QueryAsync<p_package>(sql)).ToList();
             }
         }
@@ -631,10 +254,21 @@ namespace ElectricityManagementAPI.Dal
         //添加网点表
         public async Task<int> AddBranchAsync(b_branch b) 
         {
-            string sql = $"INSERT INTO b_branch(Bmerchant,Bcheckout,Btime) VALUES ('{b.Bmerchant}','{b.Bcheckout}','{DateTime.Now}')";
+            string sql = $"INSERT into b_branch(Bmerchant,Bcheckout) values ('{b.Bmerchant}','{b.Bcheckout}')";
+            using (MySqlConnection conn=new MySqlConnection())
+            {
+                int i = (await conn.ExecuteAsync(sql));
+                return i;
+            }
+        }
+        //添加京东
+        public async Task<int> AddJingdongAsync(j_jingdong j)
+        {
+            string sql = $"INSERT into j_jingdong(Jmerchant,Jidentification,Jtype,Jquantity,Jfirstheavy,Jcountined,Jtime) VALUES ('{j.Jmerchant}','{j.Jidentification}','{j.Jtype}','{j.Jquantity}','{j.Jfirstheavy}','{j.Jcountined}','{DateTime.Now}')";
             using (MySqlConnection conn=new MySqlConnection(_connectionString))
             {
-                return (await conn.ExecuteAsync(sql));
+                int list = (await conn.ExecuteAsync(sql));
+                return list;
             }
         }
         //删除地址
@@ -846,240 +480,15 @@ namespace ElectricityManagementAPI.Dal
                 return await conn.ExecuteAsync(sql);
             }
         }
-
-
-
-        //退换货原因
-        public async Task<List<SalesExchangeModel>> TuiShowAsync()
-        {
-            string sql = $"SELECT * from SalesExchange ORDER BY SalesExchangeId DESC";
-            using MySqlConnection tion = new MySqlConnection(_connectionString);
-            return (await tion.QueryAsync<SalesExchangeModel>(sql)).ToList();
-        }
-        
-        //退货原因删除
-        public async Task<int> DELReturnAsync(string SId)
-        {
-            string sql = $"DELETE from salesexchange where SalesExchangeId in ({SId})";
-            using MySqlConnection tion = new MySqlConnection(_connectionString);
-            return (await tion.ExecuteAsync(sql));
-        }
-
-        //退货添加
-        public async Task<int> ADDReturnAsync(SalesExchangeModel sa)
-        {
-            string sql = $"INSERT INTO salesexchange(SalesExchangeCause, SalesExchangInfo) VALUES('{sa.SalesExchangeCause}','{sa.SalesExchangInfo}')";
-
-            using MySqlConnection tion = new MySqlConnection(_connectionString);
-            return (await tion.ExecuteAsync(sql));
-        }
-
-
-        //显示角色信息
-        public async Task<List<Roles>> ShowRolesAsync(string RName, string RCreator)
-        {
-            string sql = $"SELECT RId, RName, RCreator, ROrganization, RState, DName FROM roles r  JOIN depantment d ON r.ROrganization = d.DId where 1=1";
-            using (MySqlConnection conn=new MySqlConnection(_connectionString))
-            {
-                if (!string.IsNullOrEmpty(RName))
-                {
-                    sql += $" and RName like '%{RName}%'";
-                }
-                if (!string.IsNullOrEmpty(RCreator))
-                {
-                    sql += $" and RCreator like '%{RCreator}%'";
-                }
-                return (await conn.QueryAsync<Roles>(sql)).ToList();
-            }
-        }
-        //显示功能信息
-        public async Task<List<Function>> ShowFunctionAsync(string FName, string FCoding)
-        {
-            string sql = "SELECT * FROM  Function where 1=1";
-            using (MySqlConnection conn=new MySqlConnection(_connectionString))
-            {
-                if (!string.IsNullOrEmpty(FName))
-                {
-                    sql += $" and FName like '%{FName}%'";
-                }
-                if (!string.IsNullOrEmpty(FCoding))
-                {
-                    sql += $" and FCoding like '%{FCoding}%'";
-                }
-                return (await conn.QueryAsync<Function>(sql)).ToList();
-            }
-        }
-        //显示组织信息
-        public async Task<List<Tissue>> ShowTissueAsync(string TLinkman, string TName)
-        {
-            string sql = "SELECT * FROM Tissue where 1=1";
-            using (MySqlConnection conn=new MySqlConnection(_connectionString))
-            {
-                if (!string.IsNullOrEmpty(TName))
-                {
-                    sql += $" and TName like '%{TName}%'";
-                }
-                if (!string.IsNullOrEmpty(TLinkman))
-                {
-                    sql += $" and TLinkman like '%{TLinkman}%'";
-                }
-                return (await conn.QueryAsync<Tissue>(sql)).ToList();
-            }
-        }
-        //删除角色信息
-        public async Task<int> DelRolesAsync(string ids)
-        {
-            string sql = $"DELETE FROM roles where RId in ('{ids}')";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
-            {
-                int i = (await conn.ExecuteAsync(sql));
-                return i;
-            }
-        }
-        //编辑角色信息
-        public async Task<int> UptRolesAsync(Roles r)
-        {
-            string sql = $"UPDATE roles SET RName='{r.RName}',Creator='{r.RCreator}',ROrganization='{r.ROrganization}',RState={r.RState} where RId={r.RId}";
-            using (MySqlConnection  conn=new MySqlConnection(_connectionString))
-            {
-                int i = (await conn.ExecuteAsync(sql));
-                return i;
-            }
-        }
-        //添加角色信息
-        public async Task<int> AddRolesAsync(Roles r)
-        {
-            string sql = $"INSERT INTO roles(RName,RCoding,RCreator,ROrganization,RDescribe) VALUES('{r.RName}','{r.RCoding}','{r.RCreator}',{r.ROrganization},'{r.RDescribe}')";
-            using (MySqlConnection conn=new MySqlConnection(_connectionString))
-            {
-                int i = (await conn.ExecuteAsync(sql));
-                return i;
-            }
-        }
-        //绑定下拉显示部门
-        public async Task<List<Department>> BindDepartmentAsync()
-        {
-            string sql = $"SELECT * FROM depantment";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString)) 
-            {
-                return (await conn.QueryAsync<Department>(sql)).ToList();
-            }
-        }
-        //添加组织信息
-        public async Task<int> AddTissueAsync(Tissue t)
-        {
-            string sql = $"INSERT INTO tissue(TName,TLinkman,TPhone) VALUES('{t.TName}','{t.TLinkman}','{t.TPhone}')";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
-            {
-                int i = (await conn.ExecuteAsync(sql));
-                return i;
-            }
-        }
-        //添加功能信息
-        public async Task<int> AddFunctionAsync(Function f)
-        {
-            string sql = $"INSERT INTO function(FName,FCoding) VALUES('{f.FName}','{f.FCoding}')";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
-            {
-                int i = (await conn.ExecuteAsync(sql));
-                return i;
-            }
-        }
-        //删除功能信息
-        public async Task<int> DelFunctionAsync(string ids)
-        {
-            string sql = $"DELETE FROM `function` where FId in ('{ids}')";
-            using (MySqlConnection conn=new MySqlConnection(_connectionString))
-            {
-                int i = (await conn.ExecuteAsync(sql));
-                return i;
-            }
-        }
-        //修改功能信息
-        public async Task<int> UptFunctionAsync(Function f)
-        {
-            string sql = $"UPDATE `function` SET FName='1',FCoding='1',FState=1 where FId=0";
-            using (MySqlConnection conn=new MySqlConnection(_connectionString))
-            {
-                int i = (await conn.ExecuteAsync(sql));
-                return i;
-            }
-        }
-        //删除组织信息
-        public async Task<int> DelTissueAsync(string ids)
-        {
-            string sql = $"DELETE FROM tissue where TId in ('{ids}')";
-            using (MySqlConnection conn=new MySqlConnection(_connectionString))
-            {
-                int i = (await conn.ExecuteAsync(sql));
-                return i;
-            }
-        }
-        //修改组织信息
-        public async Task<int> UptTissueAsync(Tissue t)
-        {
-            string sql = $"UPDATE tissue SET TName='{t.TName}',TLinkman='{t.TLinkman}',TPhone='{t.TPhone}',TState='{t.TState}' where TId='{t.TId}'";
-            using (MySqlConnection conn=new MySqlConnection(_connectionString))
-            {
-                int i = (await conn.ExecuteAsync(_connectionString));
-                return i;
-            }
-        }
-        //反填组织信息
-        public async Task<List<Tissue>> FanTissueAsync(int ids)
-        {
-            string sql = $"SELECT * FROM tissue where TId={ids}";
-            using (MySqlConnection conn=new MySqlConnection(_connectionString))
-            {
-                return (await conn.QueryAsync<Tissue>(sql)).ToList();
-            }
-        }
-        //详情页（包裹中心）
-        public async Task<List<p_package>> DetailspackageAsync(int id)
-        {
-            string sql = $"select * from p_package  p   join e_experssage e ON p.Eid=e.Eid join `order` o on p.Pordernumber=o.OrderId where p.Pid={id}";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
-            {
-                return (await conn.QueryAsync<p_package>(sql)).ToList();
-            }
-        }
-        //反填角色信息
-        public async Task<List<Roles>> FanRolesAsync(int ids)
-        {
-            string sql = $"SELECT * FROM Roles where RId={ids}";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
-            {
-                return (await conn.QueryAsync<Roles>(sql)).ToList();
-            }
-        }
-        //反填功能信息
-        public async Task<List<Function>> FanFunctionAsync(int ids)
-        {
-            string sql = $"SELECT * FROM function where FId={ids}";
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
-            {
-                return (await conn.QueryAsync<Function>(sql)).ToList();
-            }
-        }
-
         //退货显示
-        public async Task<List<SalesModel>> GetSales(int state)
-      
-
+        public async Task<List<SalesModel>> GetSales()
         {
-            string sql = $"select * from sales join waybill on sales.SalesOrderId=waybill.WayBillid join  `order` on waybill.WayBillOrderId =`order`.OrderId join goods on OrderGoodsId = goodsId join buyerinfo on OrderBuyerId = BuyerInfold join buyerrelation on BuyerInfoPlace = BuyerRelationInfo join buyeraddress on BuyerRelationAddress = BuyerAddressId join  salesexchange on sales.ReturnSalesId=salesexchange.SalesExchangeId where 1 = 1  and buyerrelation.BuyerRelationState = 1";
-            if (state != 0)
+            string sql = $"SELECT * from sales s  join   `order` o on s.ReturnSalesId = o.OrderId join goods  g on  o.OrderGoodsId = g.GoodsId ";
+            using (MySqlConnection conn=new MySqlConnection(_connectionString))
             {
-                sql += $" and SalesState = { state }";
-            }
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
                 return (await conn.QueryAsync<SalesModel>(sql)).ToList();
+            }
         }
-     
-
-
-      
-
         //显示退货申请-待审核
         public async Task<List<SalesModel>> DetailsSales(int id)
         {
@@ -1089,14 +498,5 @@ namespace ElectricityManagementAPI.Dal
                 return (await conn.QueryAsync<SalesModel>(sql)).ToList();
             }
         }
-
-
-
-
-        public Task<List<p_package>> GetPackagesAsync()
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

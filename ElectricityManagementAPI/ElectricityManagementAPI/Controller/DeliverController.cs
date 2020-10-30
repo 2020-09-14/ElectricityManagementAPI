@@ -18,8 +18,6 @@ namespace ElectricityManagementAPI.Controller
         {
             _electricityManagement = electricityManagement;
         }
-
-
         [HttpGet]
         public async Task<IActionResult> GetDeliver(int page,int pageSize,string begintime,string overtime,string state, 
                 string paytype, string goodsname,string express, string shoupeo, string tels,string deliver)

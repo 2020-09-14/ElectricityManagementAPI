@@ -7,10 +7,7 @@ namespace ElectricityManagementAPI.Models
 {
     public class inquire
     {
-        
-        /// <summary>
-        /// 查询表
-        /// </summary>
+        //查询表
 
         //文章表
 
@@ -32,8 +29,6 @@ namespace ElectricityManagementAPI.Models
 
         public string Cover { get; set; }//封面图
 
-        public string Details { get; set; }//文章详情
-
         //文章分类
 
         public int CID { get; set; }//主键自增
@@ -43,16 +38,6 @@ namespace ElectricityManagementAPI.Models
         public int Cnumber { get; set; }//文章数量
 
         public bool CState { get; set; }//当前状态
-
-        //用户表
-
-        public int Uid { get; set; }//主键ID
-
-        public string UserName { get; set; }//用户名
-
-        public string Password { get; set; }//用户密码
-
-        public string Phone { get; set; }//电话号
 
 
     }

@@ -8,14 +8,13 @@ namespace ElectricityManagementAPI.Models
     public class Comment
     {
 
+        //评论表
 
-        /// <summary>
-        /// 评论表
-        /// </summary>
-
-        public int MId { get; set; }//主键自增
+        public int MID { get; set; }//主键自增
 
         public string Portrait { get; set; }//用户头像
+
+        public string Nickname { get; set; }//用户昵称
 
         public string Content { get; set; }//评论内容
 

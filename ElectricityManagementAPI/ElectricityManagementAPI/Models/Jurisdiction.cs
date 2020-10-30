@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace ElectricityManagementAPI.Models
 {
-    public class Department
+    public class Jurisdiction
     {
-        //所属部门表
+        //权限表
         public int Id { get; set; }
-        public string DName { get; set; }//部门名称
+        public string JName { get; set; }//权限名称
     }
 }

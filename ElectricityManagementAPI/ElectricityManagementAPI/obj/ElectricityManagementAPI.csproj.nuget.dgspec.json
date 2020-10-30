@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\T\\Desktop\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {}
+    "C:\\Users\\86176\\Desktop\\电商后台管理API\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\T\\Desktop\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {
+    "C:\\Users\\86176\\Desktop\\电商后台管理API\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\T\\Desktop\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
+        "projectUniqueName": "C:\\Users\\86176\\Desktop\\电商后台管理API\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
         "projectName": "ElectricityManagementAPI",
-        "projectPath": "C:\\Users\\T\\Desktop\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
-        "packagesPath": "C:\\Users\\T\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\T\\Desktop\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI\\obj\\",
+        "projectPath": "C:\\Users\\86176\\Desktop\\电商后台管理API\\ElectricityManagementAPI\\ElectricityManagementAPI\\ElectricityManagementAPI.csproj",
+        "packagesPath": "C:\\Users\\86176\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\86176\\Desktop\\电商后台管理API\\ElectricityManagementAPI\\ElectricityManagementAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\T\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\86176\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -45,13 +45,21 @@
               "target": "Package",
               "version": "[2.0.35, )"
             },
+            "EPPlus.Core": {
+              "target": "Package",
+              "version": "[1.5.4, )"
+            },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.Extensions.Configuration": {
               "target": "Package",
               "version": "[3.1.9, )"
             },
             "MySql.Data": {
               "target": "Package",
-              "version": "[8.0.22, )"
+              "version": "[8.0.21, )"
             },
             "MySqlConnector": {
               "target": "Package",
@@ -60,10 +68,6 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[12.0.3, )"
-            },
-            "System.Collections": {
-              "target": "Package",
-              "version": "[4.3.0, )"
             }
           },
           "imports": [
