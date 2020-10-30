@@ -18,8 +18,17 @@ namespace ElectricityManagementAPI.Dal
         //大傻春
         public ElectricityManagement(IConfiguration configuration)
         {
-
-            _connectionString = configuration.GetConnectionString("MySqllinking");
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+        //动态退换货原因
+        public async Task<List<SalesExchangeModel>> GetSalesExchangesAsync()
+        {
+            string sql = "select * from salesexchange";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                return (await conn.QueryAsync<SalesExchangeModel>(sql)).ToList();
+            }
+       
 
 
             //_connectionString = configuration.GetConnectionString("LiuKang");
@@ -232,6 +241,7 @@ namespace ElectricityManagementAPI.Dal
             }
 
             
+
         }
         //品牌添加
         public async Task<int> BrandAddAsync(brand b)
@@ -257,6 +267,15 @@ namespace ElectricityManagementAPI.Dal
         {
             string sql = $"delete from  `order` where OrderId in ({ids})";
             using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            {
+                return await conn.ExecuteAsync(sql);
+            }
+        }
+        //删除退货单
+        public async Task<int> SalesDelAllAsync(string ids)
+        {
+            string sql = $"delete from  sales where SalesId in ({ids})";
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
                 return await conn.ExecuteAsync(sql);
             }
@@ -820,6 +839,7 @@ namespace ElectricityManagementAPI.Dal
         }
 
 
+
         //退换货原因
         public async Task<List<SalesExchangeModel>> TuiShowAsync()
         {
@@ -1034,14 +1054,23 @@ namespace ElectricityManagementAPI.Dal
         }
 
         //退货显示
-        public async Task<List<SalesModel>> GetSales()
+        public async Task<List<SalesModel>> GetSales(int state)
+      
+
         {
-            string sql = $"SELECT * from sales s  join   `order` o on s.ReturnSalesId = o.OrderId join goods  g on  o.OrderGoodsId = g.GoodsId ";
-            using (MySqlConnection conn=new MySqlConnection(_connectionString))
+            string sql = $"select * from sales join waybill on sales.SalesOrderId=waybill.WayBillid join  `order` on waybill.WayBillOrderId =`order`.OrderId join goods on OrderGoodsId = goodsId join buyerinfo on OrderBuyerId = BuyerInfold join buyerrelation on BuyerInfoPlace = BuyerRelationInfo join buyeraddress on BuyerRelationAddress = BuyerAddressId join  salesexchange on sales.ReturnSalesId=salesexchange.SalesExchangeId where 1 = 1  and buyerrelation.BuyerRelationState = 1";
+            if (state != 0)
             {
-                return (await conn.QueryAsync<SalesModel>(sql)).ToList();
+                sql += $" and SalesState = { state }";
             }
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+                return (await conn.QueryAsync<SalesModel>(sql)).ToList();
         }
+     
+
+
+      
+
         //显示退货申请-待审核
         public async Task<List<SalesModel>> DetailsSales(int id)
         {
@@ -1053,6 +1082,12 @@ namespace ElectricityManagementAPI.Dal
         }
 
 
+
+
+        public Task<List<p_package>> GetPackagesAsync()
+        {
+            throw new NotImplementedException();
+        }
 
     }
 }

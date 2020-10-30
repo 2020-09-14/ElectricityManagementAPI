@@ -20,7 +20,12 @@ namespace ElectricityManagementAPI.Controller
             _electricityManagement = electricityManagement;
         }
         [HttpGet]
+
+        [Route("/api/Order")]
+ 
+
         public async Task<IActionResult> GetOder(int states, string   ordernum  ,string  paytype   ,string buyerliu  ,string begintime ,string overtime  , string goodsname , string goodsnum  ,string buyername ,string tel,int page,int pageSize)
+
         {
             List<OrderModel> GetOrders = await _electricityManagement.GetOrdersAsync(states);
             if (!string.IsNullOrEmpty(ordernum))
@@ -98,40 +103,44 @@ namespace ElectricityManagementAPI.Controller
         //退货列表
         [HttpGet]
         [Route("/api/GetSales")]
-        public async Task<IActionResult> GetSales(string SalesNumber,string OrderNumber,string BuyerAddressTel,string BuyerAddressName, string begintime, string overtime, string EName,int page,int pageSize) 
+        public async Task<IActionResult> GetSales(int states, string salesnum, string expressnum, string telnum, string begintime, string overtime, string express, string salesname,
+         string salesex,
+       int page,
+       int pageSize) 
         {
-            List<SalesModel> GetOrders = await _electricityManagement.GetSales();
+            List<SalesModel> GetOrders = await _electricityManagement.GetSales(states);
 
-            if (!string.IsNullOrEmpty(SalesNumber))
+            if (!string.IsNullOrEmpty(salesnum))
             {
-                GetOrders = GetOrders.Where(t=>t.SalesNumber.Contains(SalesNumber)).ToList();
-            }
-            //订单号查询
-            if (!string.IsNullOrEmpty(OrderNumber))
+                GetOrders = GetOrders.Where(t => t.SalesNumber == salesnum).ToList();
+            }//换货单号
+            if (!string.IsNullOrEmpty(expressnum))
             {
-                GetOrders = GetOrders.Where(t=>t.OrderNumber.Contains(OrderNumber)).ToList();
-            }
+                GetOrders = GetOrders.Where(t => t.WayBillNumber == expressnum).ToList();
+            }//快递单号         1 支付宝   2微信
 
-            if (!string.IsNullOrEmpty(BuyerAddressTel))
+            if (!string.IsNullOrEmpty(telnum))
             {
-                GetOrders = GetOrders.Where(t => t.BuyerInfoTel.Contains(BuyerAddressTel)).ToList();
-            }
-            
-            if (!string.IsNullOrEmpty(BuyerAddressName))
+                GetOrders = GetOrders.Where(t => t.BuyerAddressTel == telnum).ToList();
+            }//退货人手机
+            if (!string.IsNullOrEmpty(salesname))
             {
-                GetOrders = GetOrders.Where(t => t.BuyerInfoName.Contains(BuyerAddressName)).ToList();
-            }
-            
+                GetOrders = GetOrders.Where(t => t.BuyerAddressName.Contains(salesname)).ToList();
+            }//退货人昵称
             if (!string.IsNullOrEmpty(begintime) || !string.IsNullOrEmpty(overtime))
             {
 
                 GetOrders = GetOrders.Where(t => t.SalesTime > Convert.ToDateTime(begintime) && t.SalesTime < Convert.ToDateTime(overtime)).ToList();
-            }
-            //商品名称
-            if (!string.IsNullOrEmpty(EName))
+            }//时间查询
+            if (!string.IsNullOrEmpty(express))
             {
-                GetOrders = GetOrders.Where(t =>t.EName.Contains(EName)).ToList();
-            }
+                GetOrders = GetOrders.Where(t => t.WayBillExpress == (express)).ToList();
+            }//快递公司
+            if (!string.IsNullOrEmpty(salesex))
+            {
+                GetOrders = GetOrders.Where(t => t.ReturnSalesId == Convert.ToInt32(salesex)).ToList();
+            }//退换货原因
+
             var count = GetOrders.Count;
             GetOrders = GetOrders.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             var model = new
@@ -149,5 +158,12 @@ namespace ElectricityManagementAPI.Controller
             List<SalesModel> list = (await _electricityManagement.DetailsSales(id));
             return Ok(list);
         }
-    }
+        [HttpGet]
+        [Route("/api/salaschange")]
+        public async Task<IActionResult> SaleschangeXiala()
+        {
+            var list = await _electricityManagement.GetSalesExchangesAsync();
+            return Ok(list);
+        }
+    } 
 }

@@ -40,11 +40,6 @@ namespace ElectricityManagementAPI
 
            p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin())
 
-       
-
-        
-
-
            );
 
         }
@@ -76,11 +71,17 @@ namespace ElectricityManagementAPI
             {
                 EnableDirectoryBrowsing = true,//开启目录访问
 
-                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(@"C:\Users\HP\Desktop\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\Images\"),
+              //  FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(@"C:\Users\HP\Desktop\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\Images\"),
 
 
+
+
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(@"C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\Images\"),
+
+               // FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(@"E:\大一项目\API1\ElectricityManagementAPI\ElectricityManagementAPI\Images"),
 
                 //FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(@"D:\电商后台API\ElectricityManagementAPI\ElectricityManagementAPI\Images"),
+
 
                 
  

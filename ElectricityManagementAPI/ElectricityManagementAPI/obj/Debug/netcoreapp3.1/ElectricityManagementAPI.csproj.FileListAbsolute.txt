@@ -64,9 +64,6 @@ C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\Electricity
 C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.dll
 C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.pdb
 C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.genruntimeconfig.cache
-C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
-C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
-C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
 C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.csproj.CoreCompileInputs.cache
 C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\HP\Desktop\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
@@ -153,7 +150,6 @@ C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\Electricity
 C:\Users\86176\Desktop\电商后台管理API\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
 C:\Users\86176\Desktop\电商后台管理API\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
 C:\Users\86176\Desktop\电商后台管理API\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
-C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.csprojAssemblyReference.cache
 C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
@@ -204,6 +200,10 @@ C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\Electrici
 C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.dll
 C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.pdb
 C:\Users\guisu\Desktop\电商\新建文件夹\ElectricityManagementAPI\ElectricityManagementAPI\obj\Debug\netcoreapp3.1\ElectricityManagementAPI.genruntimeconfig.cache
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\MySqlConnector.dll
+C:\Users\T\Desktop\ElectricityManagementAPI\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 E:\大一项目\API1\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
 E:\大一项目\API1\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 E:\大一项目\API1\ElectricityManagementAPI\ElectricityManagementAPI\bin\Debug\netcoreapp3.1\appsettings.json
