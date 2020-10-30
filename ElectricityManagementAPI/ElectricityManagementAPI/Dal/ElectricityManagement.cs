@@ -80,7 +80,6 @@ namespace ElectricityManagementAPI.Dal
                 return (await tion.ExecuteAsync(sql));
             }
         }
-
         //编辑限时购
         public async Task<int> EditActivities(activity model)
         {
@@ -88,6 +87,16 @@ namespace ElectricityManagementAPI.Dal
             using (MySqlConnection tion = new MySqlConnection(_connectionString))
             {
                 return (await tion.ExecuteAsync(sql));
+            }
+        }
+
+        //反填限时购
+        public async Task<List<activity>> FantianActivities(int ids)
+        {
+            string sql = $"select * from  activity where Id ='{ids}'";
+            using (MySqlConnection tion = new MySqlConnection(_connectionString))
+            {
+                return (await tion.QueryAsync<activity>(sql)).ToList();
             }
         }
 
@@ -353,18 +362,18 @@ namespace ElectricityManagementAPI.Dal
 
         }
         // 显示快递公司表
-        public async Task<List<e_experssage>> GetExperssagesAsync(string EName, string Eofficial)
+        public async Task<List<e_experssage>> GetExperssagesAsync(string EName, string Ephone)
         {
             string sql = $"SELECT * from e_experssage where 1=1";
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
                 if (!string.IsNullOrEmpty(EName))
                 {
-                    sql += $" and EName='{EName}'";
+                    sql += $" and Ephone='{EName}'";
                 }
-                if (!string.IsNullOrEmpty(Eofficial))
+                if (!string.IsNullOrEmpty(Ephone))
                 {
-                    sql += $" and Eofficial='{Eofficial}'";
+                    sql += $" and EName='{Ephone}'";
                 }
                 return (await conn.QueryAsync<e_experssage>(sql)).ToList();
             }

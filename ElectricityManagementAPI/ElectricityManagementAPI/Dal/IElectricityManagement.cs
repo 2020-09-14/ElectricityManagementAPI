@@ -133,9 +133,9 @@ namespace ElectricityManagementAPI.Dal
         Task<List<SalesModel>> GetSales(int state);
         //包裹中心表
         Task<List<p_package>> GetPackagesAsync();
+        //反填限时购
+        Task<List<activity>> FantianActivities(int ids);
 
-
-        
 
         //显示地址
         Task<List<a_address>> GetAddressesAsync();
@@ -190,8 +190,6 @@ namespace ElectricityManagementAPI.Dal
         Task<List<e_experssage>> GetExperssagesAsync(string Ephone, string EName);
         //显示地址表
 
-
-       
 
         //显示包裹中心
         Task<List<p_package>> GetPackagesAsync(string Pstate, string EName, string Podd, string Pordernumber, string Panomaly);

@@ -71,7 +71,15 @@ namespace ElectricityManagementAPI.Controller
             string  json1 = JsonConvert.SerializeObject(json);
             return Ok(json1);
         }
-
+        //反填限时购
+        [HttpGet]
+        [Route("/api/fantian")]
+        public async Task<IActionResult> Fan(int ids)
+        {
+            var Product = await _electricity.FantianActivities(ids);
+           
+            return Ok(Product);
+        }
         //商品删除(单删)
         [HttpPost]
         [Route("/api/DelProduct")]
